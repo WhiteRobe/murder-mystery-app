@@ -1,6 +1,6 @@
-# Murder Mystery App Skill
+# 剧本杀 App Skill（局域网部署）
 
-> A Trae/Claude-style skill for building LAN-deployable murder mystery (剧本杀) Web applications — zero-dependency Node.js + Windows batch launcher + server-side authorization + per-page PDF screenshots + themed UI.
+> 一个 Trae/Claude 风格的 Skill，用于把现有剧本杀脚本（PDF + 线索图 + 真相文档）一键生成为可在局域网部署的 Web 应用 —— 零依赖 Node.js + Windows 一键启动 + 服务端鉴权 + 按页 PDF 截图 + 主题化 UI。
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-339933?logo=node.js&logoColor=white)](https://nodejs.org)
@@ -8,156 +8,183 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)](#)
 [![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen)](#)
 
-A ready-to-use skill that turns an existing 剧本杀 script (PDFs + clue images + truth documents) into a fully playable LAN-deployable Web APP with an "organizer-console / player-console" dual-end authorization structure.
+一个开箱即用的 Skill —— 把剧本 PDF、线索图、真相文档交给它，就能直接产出一个可在局域网部署的 Web APP，天然具备"组织者控制台 / 玩家控制台"双端鉴权结构。
 
 ---
 
-## ✨ Features
+## ✨ 核心特性
 
-- 🎭 **Dual-end architecture** — separate **DM (organizer) console** and **Player console**, with role-based authorization
-- 🌐 **LAN-deployable** — players join via a resource code shared by the DM; no public internet required
-- 📄 **Per-page PDF screenshots** — script pages are rendered as page-by-page screenshots so the DM can advance the timeline without revealing hidden clues
-- 🖼️ **Clue images + truth documents** — visual clues and the truth file are managed server-side; players only see what they're entitled to
-- ⏱️ **Action points (AP)** — turn-based investigation with AP economy
-- 🚀 **Zero external dependencies** — pure Node.js stdlib (`http`, `fs`, `path`, `url`); works on a fresh `node:18+` install
-- 🪟 **One-click Windows launcher** — a `.bat` file that starts the server and prints the LAN URL for players
-- 🎨 **Themed HTML** — period/genre-specific UI (e.g. noir, period, wuxia) without external CSS frameworks
-- 🔐 **Server-side authorization** — players can never bypass role checks by editing the page
+- 🎭 **双端架构** —— **DM（主持人）控制台** 与 **玩家控制台** 完全分离，基于角色的服务端鉴权
+- 🌐 **局域网部署** —— 玩家通过 DM 分享的"资源码"接入，无需公网
+- 📄 **按页 PDF 截图** —— 剧本按页拆分为图片，DM 推进时间线时不会泄露未公开线索
+- 🖼️ **线索图 + 真相文档** —— 服务端统一管理，玩家只看到自己有权查看的内容
+- ⏱️ **行动点（AP）机制** —— 回合制调查，AP 经济
+- 🚀 **零外部依赖** —— 纯 Node.js 标准库（`http`、`fs`、`path`、`url`），装好 `Node 18+` 即可跑
+- 🪟 **Windows 一键启动** —— `.bat` 文件双击即开，自动打印局域网 URL
+- 🎨 **主题化 HTML** —— 不依赖任何 CSS 框架，原生支持 noir / 民国 / 武侠 / 蒸汽朋克 / 中世纪 等风格
+- 🔐 **服务端鉴权** —— 玩家无法通过前端绕过角色检查（线索隔离由服务端保证）
 
 ---
 
-## 📂 What's in this skill
+## 📂 仓库结构
 
-| Path | Purpose |
+| 路径 | 说明 |
 | --- | --- |
-| `SKILL.md` | Skill activation spec — when to invoke, what it produces, how it routes |
-| `IMPROVEMENTS.md` | Evolution log — improvements applied across iterations |
-| `loop.md` | The DM-driven timeline loop (start → round → reveal → next round → end) |
-| `assets/` | Theme templates, icons, sample UI snippets |
-| `prompts/` | Prompt fragments the skill emits during generation |
-| `references/` | Sub-scenario references (e.g. period-specific UI patterns, clue-image guidance) |
+| `SKILL.md` | Skill 激活规范 —— 何时触发、产出什么、路由策略 |
+| `IMPROVEMENTS.md` | 演进日志 —— 各轮迭代改进的记录 |
+| `loop.md` | DM 驱动的时间线循环（开局 → 回合 → 揭示 → 下一回合 → 终局） |
+| `assets/` | 主题模板、图标、示例 UI 片段 |
+| `prompts/` | Skill 在生成过程中产出的 Prompt 片段 |
+| `references/` | 子场景参考（如时代风格、线索图规范、剧本范式等） |
 
 ---
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-### 1. Use the skill in Trae
+### 1. 在 Trae 中调用
 
-Just say one of:
+直接说以下任意一句即可触发本 Skill：
 
 - "做个剧本杀"
+- "生成剧本杀 APP"
 - "build murder mystery app"
+- "做一个剧本杀系统"
+- "剧本杀 DM 服务端"
+- "我想做一个 N 人的剧本杀"
+- "帮我搭一个剧本杀局"
 - "把剧本做成可开局的形式"
-- "做一个 N 人的剧本杀"
 
-…or upload a script folder containing PDFs + clue images + a truth document and ask for a DM-server.
+或者上传一个剧本目录（含 PDF / docx + 线索图 + 真相文档），并说 "搭个 DM 服务端" 或 "做成可玩的 APP"。
 
-### 2. Run the generated APP locally
+### 2. 本地运行生成的 APP
 
 ```bash
-# Extract the generated APP to a folder, then:
+# 解压生成产物到任意目录，然后：
 node server.js
 ```
 
-…or on Windows, double-click `start.bat`.
+Windows 用户直接双击 `start.bat` 即可。
 
-The script prints something like:
+控制台会输出类似：
 
 ```
 ========================================
-  Murder Mystery APP — DM Console
-  LAN URL: http://192.168.1.20:8080
-  Share this code with players: 8G7H2K
+  剧本杀 APP — DM 控制台
+  局域网 URL: http://192.168.1.20:8080
+  玩家接入码: 8G7H2K
 ========================================
 ```
 
-Players open the URL on their phones/laptops and enter the resource code to join.
+玩家在手机/电脑上打开该 URL，输入接入码即可加入。
 
-### 3. Game flow
+### 3. 游戏流程
 
 ```
-Start    →  DM greets, players join via resource code
-Round 1  →  DM opens page 1 of the script; players receive clue images
-Reveal   →  DM advances the timeline; truth document unlocks at the end
-End      →  DM reveals the killer
+开局   →  DM 致欢迎词，玩家通过接入码进场
+回合1  →  DM 打开剧本第 1 页，玩家获取本轮线索图
+揭示   →  DM 推进时间线；终局时真相文档解锁
+终局   →  DM 揭晓凶手
 ```
 
 ---
 
-## 🧠 When to invoke
+## 🧠 触发场景
 
-This skill activates for tasks matching any of these:
+本 Skill 适用于**任何**符合下列意图的任务：
 
-| Intent | Example user phras |
+| 意图 | 用户典型说法 |
 | --- | --- |
-| Build a murder-mystery APP | "做个剧本杀"、"build murder mystery app" |
-| Make a script playable | "把剧本做成可开局的形式"、"做成可玩的 APP" |
-| Run a session locally | "帮我搭一个剧本杀局"、"剧本杀 DM 服务端" |
-| Generate a server-side DM console | "剧本杀 DM 服务端"、"我想做一个 N 人的剧本杀" |
+| 搭建剧本杀 APP | "做个剧本杀"、"build murder mystery app" |
+| 让剧本可玩 | "把剧本做成可开局的形式"、"做成可玩的 APP" |
+| 局域网组一局 | "帮我搭一个剧本杀局"、"剧本杀 DM 服务端" |
+| 生成 DM 服务端 | "剧本杀 DM 服务端"、"我想做一个 N 人的剧本杀" |
 
-It does **NOT** apply to:
+**不适用**于：
 
-- Generic Web CRUD / chat / forum apps
-- Online quiz / answer apps
-- Mobile native apps (React Native / Flutter)
-- Apps without an organizer/player dual-end structure
+- 普通的 Web CRUD / 在线聊天 / 论坛
+- 在线答题 / 答题小程序
+- 任何没有"组织者-玩家"双端鉴权结构的 Web 应用
+- 移动原生 App（React Native / Flutter）
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ 架构
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│                       DM (Organizer)                        │
-│  - Sees entire script (every page + every clue)              │
-│  - Manages player seats, AP, timeline                       │
-│  - Can advance rounds, reveal truth at end                  │
+│                       DM（主持人）                            │
+│  - 看到完整剧本（每一页 + 每一条线索）                            │
+│  - 管理玩家席位、AP、时间线                                    │
+│  - 可推进回合、终局揭晓真相                                    │
 └──────────────┬──────────────────────────────┬──────────────┘
-               │                  LAN         │
+               │                  局域网       │
                ▼                               ▼
        ┌─────────────┐                 ┌─────────────┐
-       │  Player 1   │                 │  Player N   │
-       │  - Sees only│                 │  - Sees only│
-       │    their own│                 │    their own│
-       │    pages    │                 │    pages    │
-       │  - AP-based │                 │  - AP-based │
-       │    actions  │                 │    actions  │
+       │  玩家 1     │                 │  玩家 N     │
+       │  - 仅看到    │                 │  - 仅看到    │
+       │    自己的   │                 │    自己的   │
+       │    页面     │                 │    页面     │
+       │  - AP 制行动│                 │  - AP 制行动│
        └─────────────┘                 └─────────────┘
 ```
 
-The DM console and player consoles share one Node.js HTTP server. Every request is authorized server-side — clients never see clues they're not entitled to.
+DM 控制台与玩家控制台共用一个 Node.js HTTP 服务，**每一次请求都经过服务端鉴权**——客户端永远拿不到自己权限外的线索。
 
 ---
 
-## 🛠️ Stack
+## 🛠️ 技术栈
 
-- **Runtime**: Node.js 18+ (uses native `fetch`, `crypto`, `http`)
-- **Frontend**: vanilla HTML/CSS/JS — no React, Vue, jQuery, Tailwind
-- **PDF rendering**: native browser PDF.js or screenshot fallback
-- **Storage**: JSON files in `data/` (rooms, players, clue unlocks)
-- **Auth**: shared resource codes, server-side only
-
----
-
-## 📋 Requirements
-
-- Node.js **>= 18** (for native `fetch` and modern `crypto`)
-- LAN with all players on the same subnet as the DM
-- Modern browser on each player's device
+- **运行时**：Node.js 18+（用到了原生 `fetch` 与 `crypto`）
+- **前端**：原生 HTML / CSS / JS —— 不依赖 React、Vue、jQuery、Tailwind
+- **PDF 渲染**：浏览器原生 PDF.js 或自动截图回退
+- **存储**：JSON 文件存于 `data/`（房间、玩家、线索解锁状态）
+- **鉴权**：共享资源码，仅在服务端校验
 
 ---
 
-## 📝 License
+## 📋 环境要求
+
+- Node.js **>= 18**（依赖原生 `fetch` 和现代 `crypto`）
+- 所有玩家与 DM 在同一局域网
+- 玩家端使用现代浏览器（手机 / 电脑均可）
+
+---
+
+## 📝 协议
 
 [MIT](LICENSE) © 2026 WhiteRobe
 
 ---
 
-## 🤝 Contributing
+## 🤝 贡献
 
-PRs welcome. Particularly useful:
+欢迎 PR。尤其欢迎以下方向：
 
-- New period/genre theme templates
-- Better PDF page-screenshot fallbacks
-- More sample clue-image patterns
-- Internationalization (the current UI is Chinese-first)
+- 新的时代 / 题材主题模板
+- 更好的 PDF → 截图回退策略
+- 更多线索图规范样例
+- 国际化（当前 UI 以中文为主）
+
+---
+
+## 🙋 常见问题
+
+**Q：生成出来的 APP 真的零依赖吗？**
+
+A：是的。只用 Node.js 标准库 `http`、`fs`、`path`、`url`、`crypto`。任何机器装好 Node 18+ 即可运行，不需要 `npm install`。
+
+**Q：可以离线玩吗？**
+
+A：可以。整个服务跑在局域网，不需要公网。
+
+**Q：能换主题吗？**
+
+A：`assets/` 下已经内置多个主题（noir、民国、武侠、蒸汽朋克、敦煌、青瓷、沙漠、城堡、维多利亚、科幻、剧院、西部、暗黑、亮色），生成时指定即可。
+
+**Q：支持私有消息吗？**
+
+A：支持。参考 `references/14-private-messaging.md`。
+
+**Q：支持经济系统 / 偷取 / 交易吗？**
+
+A：支持。参考 `references/15-economy-steal-trade.md`。
