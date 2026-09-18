@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>玩家端 · %PROJECT_TITLE%</title>
+<link rel="stylesheet" href="/css/style.css">
+%THEME_CSS%
+<script>
+/* 运行时主题切换：?theme=xxx 或 localStorage；目标 CSS 未 link 则动态加载，失败回退默认 */
+(function(){
+  var DEFAULT = '%DEFAULT_THEME%';
+  var params = new URLSearchParams(location.search);
+  var stored = localStorage.getItem('mystery_theme');
+  var theme = params.get('theme') || stored || DEFAULT;
+  var root = document.documentElement;
+  root.dataset.theme = theme;
+  if (theme !== DEFAULT && !document.querySelector('link[data-theme-css="' + theme + '"]')) {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = '/css/theme-' + theme + '.css';
+    l.dataset.themeCss = theme;
+    l.onerror = function () {
+      l.remove();
+      root.dataset.theme = DEFAULT;
+      try { localStorage.removeItem('mystery_theme'); } catch (e) {}
+    };
+    document.head.appendChild(l);
+  }
+})();
+</script>
+</head>
+<body data-theme="%DEFAULT_THEME%">
+
+<div id="loginView" class="login-wrap">
+  <div class="claim-stage">
+    <div class="claim-ornament" aria-hidden="true"></div>
+    <h1 class="claim-title">%PROJECT_TITLE%</h1>
+    <div class="claim-divider"></div>
+    <div class="claim-sub">%CLAIM_SUB%</div>
+    <div class="claim-form">
+      <input type="text" id="claimInput" placeholder="0000" maxlength="4" inputmode="numeric"
+             autocomplete="off" style="text-align:center; font-size:28px; letter-spacing:12px; font-family:var(--font-mono)">
+      <button class="btn primary" id="claimBtn">%CLAIM_BTN%</button>
+    </div>
+    <div class="claim-tip">认领码由本场主持人提供，可在主持人端「玩家列表」查看</div>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
+  <div id="shell" style="display:flex; min-height:calc(100vh - 60px)">
+    <aside id="sidebar">
+      <div class="side-head">
+        <span class="logo">%PROJECT_LOGO%</span>
+        <button id="sideClose" class="side-close" title="收起"></button>
+      </div>
+      <div class="side-sub" id="meName">--</div>
+      <nav class="side-nav" id="sideNav"></nav>
+    </aside>
+    <div id="sideMask"></div>
+    <div class="dm-main">
+      <header class="topbar">
+        <div class="brand">
+          <button id="sideOpen" class="side-open" title="展开"></button>
+          <span class="sub" id="pageTitle">主页</span>
+        </div>
+        <div class="top-right">
+          <span class="chip" id="phaseChip">
+            <span id="phaseChipIcon"></span>
+            <span id="phaseChipText"></span>
+          </span>
+          <span class="chip timer-chip" id="timerChip" title="游戏计时">
+            <span>🕐</span><span id="timerChipText">--:--</span>
+          </span>
+          <span class="ap-pill" id="apPill">AP --</span>
+          <span class="chip" id="moneyChip" title="银两余额（取决于剧本是否开启经济）" style="display:none">
+            <span>💰</span>
+            <span id="moneyChipText">0</span>
+          </span>
+          <button class="chip theme-chip" id="themeChip" title="切换主题：默认 → 浅色 → 深色" aria-label="切换主题">
+            <span id="themeChipIcon">☉</span>
+            <span id="themeChipText">主题</span>
+          </button>
+        </div>
+      </header>
+      <main id="playerMain">
+        <section class="view active" id="view-home"></section>
+        <section class="view" id="view-search"></section>
+        <section class="view" id="view-mine"></section>
+        <section class="view" id="view-pub"></section>
+        <section class="view" id="view-time"></section>
+        <section class="view" id="view-docs"></section>
+        <section class="view" id="view-truth"></section>
+        <section class="view" id="view-code"></section>
+        <section class="view" id="view-msg"></section>
+        <section class="view" id="view-fight"></section>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<div id="modalRoot"></div>
+
+<script src="/js/common.js"></script>
+<script src="/js/player.js"></script>
+</body>
+</html>

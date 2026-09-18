@@ -1,0 +1,172 @@
+/* Theme: steam (蒸汽列车/工业)
+ * 由 gen-theme.cjs 生成 · 题材候选池采样 + 对比度自校验
+ * 启用方式：<html data-theme="steam">
+ * 或运行时切换：document.documentElement.dataset.theme = 'steam';
+ */
+
+:root[data-theme="steam"] {
+  /* 主色板 */
+  --bg:        #0e1012;
+  --bg2:       #131619;
+  --panel:     #1a1e22;
+  --panel2:    #21262c;
+  --panel3:    #2a3038;
+  --line:      #353c44;
+  --line2:     #4b545f;
+  --text:      #d9d6cc;
+  --muted:     #9aa0a6;
+  --dim:       #636b73;
+
+  /* 强调色 */
+  --blood:     #8a4b2a;
+  --blood2:    #6a371c;
+  --gold:      #c99a3f;
+  --gold2:     #a0752c;
+
+  /* 状态色 */
+  --ok:        #7b8f5a;
+  --info:      #6f8f9c;
+  --warn:      #c99a3f;
+  --danger:    #a04328;
+
+  /* 字体 */
+  --font-disp: 'Abril Fatface', Georgia, 'Songti SC', serif;
+  --font-body: 'Cormorant Garamond', Georgia, 'Songti SC', serif;
+  --font-mono: 'Courier New', Consolas, monospace;
+
+  /* 装饰 */
+  --radius:    2px;
+  --radius-sm: 2px;
+  --shadow:    0 8px 30px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 14px 52px rgba(0, 0, 0, .72);
+  --ornament: '✧';
+}
+
+/* 氛围层 */
+[data-theme="steam"] body::before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: 999;
+  background:
+    radial-gradient(ellipse at 18% 26%, rgba(201, 154, 63, 0.06) 0%, transparent 42%),
+    radial-gradient(ellipse at 82% 74%, rgba(138, 75, 42, 0.04) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 118%, rgba(232, 228, 216, 0.06) 0%, transparent 45%);
+}
+
+/* 顶部栏 */
+[data-theme="steam"] .topbar {
+  background: rgba(14, 16, 18, 0.92);
+  border-bottom: 1px solid var(--line2);
+}
+
+[data-theme="steam"] .brand .logo {
+  font-family: var(--font-disp);
+  letter-spacing: 3px;
+  color: var(--gold);
+}
+
+[data-theme="steam"] .side-sub {
+  color: var(--muted);
+  letter-spacing: 4px;
+  font-family: var(--font-disp);
+  font-size: 11px;
+}
+
+/* 卡片 */
+[data-theme="steam"] .card {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+  border: 1px solid var(--line2);
+  position: relative;
+}
+[data-theme="steam"] .card::before,
+[data-theme="steam"] .card::after {
+  content: var(--ornament);
+  position: absolute;
+  color: var(--gold);
+  font-size: 13px;
+  opacity: .35;
+}
+[data-theme="steam"] .card::before { top: 4px; left: 7px; }
+[data-theme="steam"] .card::after { bottom: 4px; right: 7px; }
+
+/* AP 行动点 */
+[data-theme="steam"] .ap-pill {
+  border: 1px solid var(--gold);
+  background: var(--panel);
+  color: var(--gold);
+  font-family: var(--font-disp);
+  letter-spacing: 2px;
+}
+
+/* code chip */
+[data-theme="steam"] .code-chip {
+  font-family: var(--font-mono);
+  background: rgba(0, 0, 0, .3);
+  color: var(--gold);
+  border: 1px dashed var(--gold);
+}
+
+/* 真相 · 封印 */
+[data-theme="steam"] .truth-card {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--bg2) 100%);
+  border: 2px double var(--blood);
+  position: relative;
+}
+[data-theme="steam"] .truth-card::before {
+  content: "T R U T H";
+  position: absolute;
+  top: -15px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 14px;
+  font-family: var(--font-disp);
+  letter-spacing: 12px;
+  color: var(--blood);
+  font-size: 14px;
+}
+
+/* 未解锁 · 帷幕 */
+[data-theme="steam"] .lock-mask {
+  background: rgba(14, 16, 18, 0.62);
+  border: 1px dashed var(--gold2);
+  color: var(--gold);
+}
+
+/* 揭示提示 */
+[data-theme="steam"] .toast.reveal {
+  border: 1px double var(--blood);
+  background:
+    linear-gradient(180deg, rgba(138, 75, 42, 0.16) 0%, rgba(14, 16, 18, 0.96) 100%),
+    radial-gradient(circle at center, rgba(217, 214, 204, 0.08), transparent 70%);
+  box-shadow: 0 0 32px rgba(201, 154, 63, 0.22);
+}
+
+/* 投票卡片 */
+[data-theme="steam"] .vote-card.suspect { border-left: 3px solid var(--blood); }
+[data-theme="steam"] .vote-card.mine { border-left: 3px solid var(--gold); }
+
+/* 特色动画 */
+/* 齿轮缓转 · 用于 logo 装饰 */
+[data-theme="steam"] .brand .logo { text-shadow: 0 0 10px rgba(201, 154, 63, 0.5), 0 0 24px rgba(138, 75, 42, 0.4); }
+@keyframes gearspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* 蒸汽脉冲 · 用于 phase chip */
+@keyframes piston {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  40% { transform: scale(.94); opacity: .82; }
+}
+[data-theme="steam"] #phaseChip { animation: piston 2.4s ease-in-out infinite; }
+
+/* 移动端适配（继承 reference 07 断点行为，只做视觉增强） */
+@media (max-width: 820px) {
+  [data-theme="steam"] .ap-pill { padding: 4px 10px; font-size: 12px; }
+  [data-theme="steam"] .topbar { padding-left: 12px; }
+  [data-theme="steam"] .chip { padding: 3px 8px; font-size: 11px; }
+}
+
+/* 角色主题色覆盖（可选微调）
+ * 说明：以下按剧本角色 id 微调 .cname 高亮色，生成时按 data.json 的
+ * characters[].id / .color 替换。若不想微调可整段删除——style.css 的
+ * .cname[data-color] 已用内联 --c 变量兜底角色主题色。
+ * 示例：
+ * [data-theme="steam"] .cname[data-color="角色id"] { color: var(--gold); }
+ */

@@ -1,0 +1,141 @@
+/* Theme: dunhuang (敦煌/楼兰/西域)
+ * 由 gen-theme.cjs 扩展 + 手工微调字体优先级
+ * 配色：朱砂红 + 金箔 + 藏青 + 砂岩米黄（莫高窟盛唐调性）
+ * 装饰：卍 ❀ ✦ ☉ ❋ ✤ 佛教符号
+ * 动画：halo（佛光晕 8s）+ flicker（佛灯摇曳 3s）+ sand（沙流 20s）
+ */
+:root[data-theme="dunhuang"] {
+  /* 主色板（mogaoku palette） */
+  --bg:#1a0f0a;
+  --bg2:#221510;
+  --panel:#2c1c14;
+  --panel2:#38231a;
+  --panel3:#432b21;
+  --line:#4a5547;
+  --line2:#5e6c5b;
+  --text:#f0d9a8;
+  --muted:#c9a878;
+  --dim:#8b6e4c;
+  /* 强调色 */
+  --blood:#c8392e;
+  --blood2:#a02a22;
+  --gold:#e8b75a;
+  --gold2:#c4924a;
+  /* 辅助色 */
+  --celadon:#6b8aa8;
+  --indigo:#3a4a6b;
+  /* 状态色 */
+  --ok:#8aa66e;
+  --info:#6b8aa8;
+  --warn:#e8b75a;
+  --danger:#c8392e;
+  /* 字体（手工微调——gen-theme 字体选择不当会破坏沉浸感） */
+  --font-disp:'Cinzel','STKaiti','KaiTi','Noto Serif SC',serif;
+  --font-body:'Noto Serif SC','Songti SC','KaiTi',serif;
+  --font-mono:'Courier New',Consolas,monospace;
+  /* 装饰 */
+  --radius:4px;
+  --radius-sm:2px;
+  --shadow:0 8px 30px rgba(0,0,0,.65);
+  --shadow-lg:0 14px 52px rgba(0,0,0,.78);
+  --ornament:'☉';
+}
+
+/* 氛围层：藻井同心圆 + 朱砂径向晕 + 金箔微点 */
+[data-theme="dunhuang"] body::before {
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:999;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(232,183,90,0.05) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, transparent 0, transparent 80px, rgba(200,57,46,0.025) 80px, transparent 81px, transparent 160px, rgba(232,183,90,0.02) 160px, transparent 161px),
+    repeating-linear-gradient(142deg,
+      transparent 0, transparent 120px, rgba(232,183,90,0.025) 120px, rgba(232,183,90,0.025) 121px);
+}
+
+/* 顶部栏 */
+[data-theme="dunhuang"] .topbar {
+  background:rgba(26,15,10,.94);
+  border-bottom:1px solid var(--gold);
+  box-shadow:0 0 20px rgba(232,183,90,.15);
+}
+
+/* 卡片 */
+[data-theme="dunhuang"] .card {
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  position:relative;
+}
+[data-theme="dunhuang"] .card::before {
+  content:'❋';
+  position:absolute; top:6px; left:10px;
+  color:var(--gold); opacity:.4;
+  pointer-events:none;
+}
+[data-theme="dunhuang"] .card::after {
+  content:'✦';
+  position:absolute; bottom:6px; right:10px;
+  color:var(--gold); opacity:.4;
+  pointer-events:none;
+}
+
+/* AP pill 木刻感 */
+[data-theme="dunhuang"] .ap-pill {
+  border:1px solid var(--gold);
+  letter-spacing:2px;
+  color:var(--gold);
+}
+
+/* 真相卡 篆刻感 */
+[data-theme="dunhuang"] .truth-card {
+  border:2px double var(--blood);
+  background:linear-gradient(180deg,var(--panel),var(--bg));
+}
+[data-theme="dunhuang"] .truth-card h1 {
+  color:var(--gold);
+  border-bottom:1px dashed var(--blood);
+  padding-bottom:10px;
+}
+[data-theme="dunhuang"] .truth-card h1::before { content:'☉ '; }
+[data-theme="dunhuang"] .truth-card h1::after { content:' ☉'; }
+
+/* code chip */
+[data-theme="dunhuang"] .code-chip {
+  border:1px dashed var(--gold);
+  background:rgba(232,183,90,.08);
+}
+
+/* 标题品牌字 */
+[data-theme="dunhuang"] .brand .logo,
+[data-theme="dunhuang"] #meName {
+  text-shadow:0 0 14px var(--gold),0 0 30px var(--blood);
+}
+
+/* 动画：佛光晕（halo）+ 烛火摇曳（flicker）+ 沙流（sand） */
+[data-theme="dunhuang"] @keyframes halo {
+  0%,100% { box-shadow:0 0 16px rgba(232,183,90,.5); }
+  50%     { box-shadow:0 0 28px rgba(232,183,90,.85), 0 0 50px rgba(58,74,107,.4); }
+}
+[data-theme="dunhuang"] @keyframes flicker {
+  0%,100% { opacity:1;   filter:brightness(1); }
+  20%     { opacity:.85; filter:brightness(.9); }
+  40%     { opacity:1;   filter:brightness(1.1); }
+  60%     { opacity:.92; filter:brightness(.95); }
+  80%     { opacity:.98; filter:brightness(1.05); }
+}
+[data-theme="dunhuang"] #phaseChip { animation:halo 8s ease-in-out infinite; }
+[data-theme="dunhuang"] .truth-card { animation:flicker 3s ease-in-out infinite; }
+
+[data-theme="dunhuang"] @keyframes sand {
+  0%   { background-position:0 0; }
+  100% { background-position:200px 200px; }
+}
+[data-theme="dunhuang"] .card {
+  background-image:radial-gradient(circle at 0% 0%, rgba(232,183,90,.04) 0%, transparent 25%);
+}
+
+/* 移动端（≤820px）继承 style.css 通用规则 */
+[data-theme="dunhuang"] @media (max-width:820px) {
+  .topbar { padding:8px 10px; }
+  .card { margin-bottom:10px; padding:12px; }
+}

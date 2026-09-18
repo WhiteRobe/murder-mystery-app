@@ -1,0 +1,183 @@
+/* Theme: Castle Cthulhu (古堡克苏鲁)
+ * 适用于：哥特古堡 / 克苏鲁神话题材 / 风暴海港 / 神秘仪式
+ * 关键氛围：暴风雨古堡、巨烛、海藻腥红、深海石板、不可名状的低语
+ *
+ * 启用方式：<html data-theme="castle">
+ * 或运行时切换：document.documentElement.dataset.theme = 'castle';
+ */
+
+:root[data-theme="castle"] {
+  /* 主色板（风暴海港的深渊石板） */
+  --bg:        #0a0d0c;        /* 深海黑（缺氧的深渊） */
+  --bg2:       #0e1310;
+  --panel:     #141a16;        /* 潮湿地衣石板 */
+  --panel2:    #1a221c;
+  --panel3:    #22302a;
+  --line:      #2b3a33;
+  --line2:     #3d5348;
+  --text:      #d8cfb4;        /* 泛黄羊皮纸（烛光所及） */
+  --muted:     #93a89c;
+  --dim:       #5d7268;
+
+  /* 强调色 */
+  --blood:     #9e2f26;        /* 锈蚀腥红（海藻红） */
+  --blood2:    #7c1f18;
+  --gold:      #d3b25a;        /* 巨烛金 */
+  --gold2:     #a88637;
+  --candle:    #f6e6a8;        /* 明黄烛火 */
+  --eldritch:  #4f8f7c;        /* 克苏鲁苔绿 */
+
+  /* 状态色 */
+  --ok:        #5d9a6f;
+  --info:      #4f8f8c;
+  --warn:      #cfae5a;
+  --danger:    #a83830;
+
+  /* 字体 */
+  --font-disp: 'Cinzel', 'Playfair Display', 'Trajan Pro', Georgia, 'Songti SC', serif;
+  --font-body: 'Cormorant Garamond', Georgia, 'Palatino Linotype', 'Songti SC', serif;
+  --font-mono: 'Courier New', 'SFMono-Regular', Consolas, monospace;
+
+  /* 装饰 */
+  --radius:    6px;            /* 石砌凿边 */
+  --radius-sm: 3px;
+  --shadow:    0 8px 30px rgba(0, 0, 0, .65);
+  --shadow-lg: 0 14px 52px rgba(0, 0, 0, .78);
+  --border-style: 1px solid var(--line2);
+  --ornament: '✦';             /* 墓石刻痕 */
+}
+
+/* 深渊雾潮 · 全屏基底（不可名状的蠕动质感） */
+[data-theme="castle"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background:
+    radial-gradient(ellipse at 18% 26%, rgba(79, 143, 124, .06) 0%, transparent 42%),
+    radial-gradient(ellipse at 82% 74%, rgba(158, 47, 38, .05) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 118%, rgba(214, 178, 90, .05) 0%, transparent 45%),
+    repeating-linear-gradient(
+      172deg,
+      transparent 0px, transparent 110px,
+      rgba(79, 143, 124, .02) 110px, rgba(79, 143, 124, .02) 112px
+    );
+}
+
+/* 顶部栏 · 石砌冠饰 */
+[data-theme="castle"] .topbar {
+  background: rgba(10, 13, 12, .92);
+  border-bottom: 2px solid var(--line2);
+  box-shadow: inset 0 -1px 0 rgba(214, 178, 90, .08);
+}
+
+[data-theme="castle"] .brand .logo {
+  font-family: var(--font-disp);
+  letter-spacing: 5px;
+  color: var(--candle);
+  text-shadow: 0 0 12px rgba(246, 230, 168, .35);
+}
+
+[data-theme="castle"] .side-sub {
+  color: var(--eldritch);
+  letter-spacing: 6px;
+  font-family: var(--font-disp);
+  font-size: 11px;
+}
+
+/* 卡片 · 湿滑石板镶边 */
+[data-theme="castle"] .card {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+  border: 1px solid var(--line2);
+  position: relative;
+}
+[data-theme="castle"] .card::before,
+[data-theme="castle"] .card::after {
+  content: var(--ornament);
+  position: absolute;
+  color: var(--gold);
+  font-size: 13px;
+  opacity: .4;
+}
+[data-theme="castle"] .card::before { top: 4px; left: 7px; }
+[data-theme="castle"] .card::after { bottom: 4px; right: 7px; }
+
+/* AP 行动点 · 烛币 */
+[data-theme="castle"] .ap-pill {
+  border: 1px solid var(--gold);
+  background: var(--panel);
+  color: var(--candle);
+  font-family: var(--font-disp);
+  letter-spacing: 2px;
+}
+
+[data-theme="castle"] .code-chip {
+  font-family: 'Courier New', monospace;
+  background: rgba(0, 0, 0, .35);
+  color: var(--candle);
+  border: 1px dashed var(--gold);
+}
+
+/* 真相 · 封印祭坛 */
+[data-theme="castle"] .truth-card {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--bg2) 100%);
+  border: 2px double var(--blood);
+  position: relative;
+}
+[data-theme="castle"] .truth-card::before {
+  content: "T R U T H";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 14px;
+  font-family: var(--font-disp);
+  letter-spacing: 12px;
+  color: var(--blood);
+  font-size: 14px;
+}
+
+/* 未解锁 · 咒缚帷幕 */
+[data-theme="castle"] .lock-mask {
+  background: rgba(10, 13, 12, .62);
+  border: 1px dashed var(--gold2);
+  color: var(--gold);
+}
+[data-theme="castle"] .lock-mask .glyph {
+  color: var(--eldritch);
+  filter: drop-shadow(0 0 6px rgba(79, 143, 124, .5));
+}
+
+/* 揭示提示 · 圣光穿透 */
+[data-theme="castle"] .toast.reveal {
+  border: 1px double var(--blood);
+  background:
+    linear-gradient(180deg, rgba(158, 47, 38, .16) 0%, rgba(10, 13, 12, .96) 100%),
+    radial-gradient(circle at center, rgba(246, 230, 168, .08), transparent 70%);
+  box-shadow: 0 0 36px rgba(246, 230, 168, .22);
+}
+
+/* 巨烛摇曳 · 用于 phase chip */
+@keyframes flicker {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--candle); }
+  25% { opacity: .82; box-shadow: 0 0 15px var(--candle); }
+  50% { opacity: .94; box-shadow: 0 0 6px var(--candle); }
+  75% { opacity: .88; box-shadow: 0 0 12px var(--candle); }
+}
+[data-theme="castle"] #phaseChip,
+[data-theme="castle"] .vote-card.suspect {
+  border-left: 3px solid var(--blood);
+}
+[data-theme="castle"] .vote-card.mine {
+  border-left: 3px solid var(--gold);
+}
+
+/* 角色主题色覆盖（可选微调）
+ * 说明：以下按剧本角色 id 微调 .cname 高亮色，生成时按 data.json 的
+ * characters[].id / .color 替换。若不想微调可整段删除——style.css 的
+ * .cname[data-color] 已用内联 --c 变量兜底角色主题色。
+ * 示例：
+ * [data-theme="castle"] .cname[data-color="角色id"] { color: var(--gold); }
+ */

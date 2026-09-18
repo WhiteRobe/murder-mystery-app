@@ -1,0 +1,437 @@
+{
+  "_comment": "gen-theme.template.cjs 的题材映射库。每个题材提供候选池：同一角色色 3-5 组可选项，随机采样只在池内发生，保证协调。所有 hex 需满足与深色底对比可读。",
+
+  "gothic": {
+    "label": "哥特古堡/克苏鲁",
+    "palettes": [
+      {
+        "bg": "#0a0d0c", "bg2": "#0e1310", "panel": "#141a16", "panel2": "#1a221c", "panel3": "#22302a",
+        "line": "#2b3a33", "line2": "#3d5348",
+        "text": "#d8cfb4", "muted": "#93a89c", "dim": "#5d7268",
+        "blood": "#9e2f26", "blood2": "#7c1f18", "gold": "#d3b25a", "gold2": "#a88637",
+        "candle": "#f6e6a8", "eldritch": "#4f8f7c",
+        "ok": "#5d9a6f", "info": "#4f8f8c", "warn": "#cfae5a", "danger": "#a83830"
+      },
+      {
+        "bg": "#0b0e12", "bg2": "#10141a", "panel": "#161b23", "panel2": "#1d242e", "panel3": "#262f3b",
+        "line": "#2e3a47", "line2": "#43505f",
+        "text": "#dcd2bd", "muted": "#9aa8b4", "dim": "#64717e",
+        "blood": "#a03a2e", "blood2": "#7e2a21", "gold": "#c9a85c", "gold2": "#9d8240",
+        "candle": "#f2e2a4", "eldritch": "#5a8f7c",
+        "ok": "#5f9a70", "info": "#5a8f8c", "warn": "#c9a85c", "danger": "#aa3b30"
+      },
+      {
+        "bg": "#090d10", "bg2": "#0d1216", "panel": "#131a1f", "panel2": "#1a2229", "panel3": "#222c35",
+        "line": "#2b3740", "line2": "#3f4e59",
+        "text": "#d6cbb2", "muted": "#8fa0ab", "dim": "#5c6b75",
+        "blood": "#96312a", "blood2": "#74211c", "gold": "#d0ae5e", "gold2": "#a3843f",
+        "candle": "#f4e3a6", "eldritch": "#4a8874",
+        "ok": "#5b9770", "info": "#559090", "warn": "#cbab58", "danger": "#a5342c"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Cinzel', Georgia, 'Songti SC', serif", "'Playfair Display', Georgia, 'Songti SC', serif", "'Trajan Pro', Georgia, serif"],
+      "body": ["'Cormorant Garamond', Georgia, 'Songti SC', serif", "'EB Garamond', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["✦", "✧", "☙"],
+    "anim": ["flicker", "mist"],
+    "radius": 6
+  },
+
+  "victorian": {
+    "label": "维多利亚旧馆/老酒店",
+    "palettes": [
+      {
+        "bg": "#1a1611", "bg2": "#211c14", "panel": "#2b251c", "panel2": "#352d22", "panel3": "#3f3628",
+        "line": "#4d4231", "line2": "#665842",
+        "text": "#e8d9b8", "muted": "#a89773", "dim": "#6e6147",
+        "blood": "#8b1a1a", "blood2": "#6b1010", "gold": "#c89f5a", "gold2": "#a37d3e",
+        "candle": "#f4e3a8",
+        "ok": "#6b8e4e", "info": "#6a8caa", "warn": "#c89f5a", "danger": "#a83333"
+      },
+      {
+        "bg": "#171512", "bg2": "#1e1a15", "panel": "#282219", "panel2": "#322a1e", "panel3": "#3b3224",
+        "line": "#463d2c", "line2": "#5e523c",
+        "text": "#e5d5b4", "muted": "#a38f6e", "dim": "#6a5d46",
+        "blood": "#841c1c", "blood2": "#641212", "gold": "#c29853", "gold2": "#9d7a39",
+        "candle": "#f2dfa2",
+        "ok": "#67894a", "info": "#6484a2", "warn": "#c29853", "danger": "#9e2e2e"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Playfair Display', Georgia, 'Times New Roman', 'Songti SC', serif", "'Cormorant Garamond', Georgia, serif"],
+      "body": ["'EB Garamond', 'Cormorant Garamond', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["❦", "❧", "✿"],
+    "anim": ["flicker"],
+    "radius": 4
+  },
+
+  "western": {
+    "label": "西部/荒野",
+    "palettes": [
+      {
+        "bg": "#151210", "bg2": "#1c1713", "panel": "#261f19", "panel2": "#2f261e", "panel3": "#392e24",
+        "line": "#4a3c2e", "line2": "#63513d",
+        "text": "#ecd9b0", "muted": "#b09a76", "dim": "#77634a",
+        "blood": "#a3472c", "blood2": "#7e341f", "gold": "#d9a94f", "gold2": "#ad8238",
+        "dust": "#c9a86a",
+        "ok": "#8a9a5b", "info": "#7f95a8", "warn": "#d9a94f", "danger": "#b03f2e"
+      },
+      {
+        "bg": "#141110", "bg2": "#1b1715", "panel": "#251f1a", "panel2": "#2e2720", "panel3": "#383028",
+        "line": "#473a2c", "line2": "#5f4f3a",
+        "text": "#e8d6ac", "muted": "#ab9571", "dim": "#736047",
+        "blood": "#9c4229", "blood2": "#78301e", "gold": "#d5a34a", "gold2": "#a97c35",
+        "dust": "#c49e64",
+        "ok": "#869456", "info": "#7b90a2", "warn": "#d5a34a", "danger": "#a93b2b"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Rye', Georgia, 'Songti SC', serif", "'Staatliches', 'Arial Narrow', sans-serif", "Georgia, 'Songti SC', serif"],
+      "body": ["Georgia, 'Songti SC', serif", "'Courier New', monospace"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["✦", "✶", "✧"],
+    "anim": ["dust", "lampswing"],
+    "radius": 3
+  },
+
+  "steam": {
+    "label": "蒸汽列车/工业",
+    "palettes": [
+      {
+        "bg": "#0e1012", "bg2": "#131619", "panel": "#1a1e22", "panel2": "#21262c", "panel3": "#2a3038",
+        "line": "#353c44", "line2": "#4b545f",
+        "text": "#d9d6cc", "muted": "#9aa0a6", "dim": "#636b73",
+        "blood": "#8a4b2a", "blood2": "#6a371c", "gold": "#c99a3f", "gold2": "#a0752c",
+        "steam": "#e8e4d8",
+        "ok": "#7b8f5a", "info": "#6f8f9c", "warn": "#c99a3f", "danger": "#a04328"
+      },
+      {
+        "bg": "#0d0f11", "bg2": "#121519", "panel": "#191d22", "panel2": "#20252c", "panel3": "#292f38",
+        "line": "#333b44", "line2": "#49535f",
+        "text": "#d6d3c9", "muted": "#969da4", "dim": "#5f676f",
+        "blood": "#8f4e2c", "blood2": "#6e3a1d", "gold": "#c69a44", "gold2": "#9d762f",
+        "steam": "#e4e0d4",
+        "ok": "#778c56", "info": "#6c8c99", "warn": "#c69a44", "danger": "#9c4529"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Abril Fatface', Georgia, 'Songti SC', serif", "'Playfair Display', Georgia, serif"],
+      "body": ["'Cormorant Garamond', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'Lucida Console', Consolas, monospace"]
+    },
+    "motifs": ["⚙", "✧", "◆"],
+    "anim": ["gear", "piston"],
+    "radius": 2
+  },
+
+  "noir": {
+    "label": "黑色电影/雨夜",
+    "palettes": [
+      {
+        "bg": "#0d1117", "bg2": "#12161d", "panel": "#191e27", "panel2": "#202632", "panel3": "#29303e",
+        "line": "#333c4c", "line2": "#495567",
+        "text": "#d9dce2", "muted": "#98a1ae", "dim": "#626c79",
+        "blood": "#b0332a", "blood2": "#8a241d", "gold": "#7fb4c8", "gold2": "#5c8fa6",
+        "rain": "#9fc4d8",
+        "ok": "#6f9a78", "info": "#7fb4c8", "warn": "#c9a25a", "danger": "#c23a2e"
+      },
+      {
+        "bg": "#0c0f14", "bg2": "#11151b", "panel": "#171c24", "panel2": "#1e242e", "panel3": "#272e3a",
+        "line": "#303847", "line2": "#45515f",
+        "text": "#d6dade", "muted": "#949da9", "dim": "#5f6975",
+        "blood": "#a92f28", "blood2": "#83221c", "gold": "#76a9bd", "gold2": "#55889e",
+        "rain": "#97bccf",
+        "ok": "#6a9573", "info": "#76a9bd", "warn": "#c39e56", "danger": "#b9362c"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Playfair Display', Georgia, 'Songti SC', serif", "'Libre Baskerville', Georgia, serif"],
+      "body": ["'Cormorant Garamond', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["☂", "✧", "❖"],
+    "anim": ["rain", "neonbreathe"],
+    "radius": 8
+  },
+
+  "science": {
+    "label": "科幻研究所",
+    "palettes": [
+      {
+        "bg": "#0a0f16", "bg2": "#0e1420", "panel": "#141b2a", "panel2": "#1b2436", "panel3": "#232e45",
+        "line": "#2e3a52", "line2": "#425070",
+        "text": "#dbe6f2", "muted": "#93a3bd", "dim": "#5e6d86",
+        "blood": "#e0552e", "blood2": "#b53f20", "gold": "#4fd8c4", "gold2": "#2fa894",
+        "fluoro": "#7cf0d8",
+        "ok": "#4fd8a0", "info": "#4fa8d8", "warn": "#e0b34f", "danger": "#e0555e"
+      },
+      {
+        "bg": "#080d15", "bg2": "#0c1220", "panel": "#121a2c", "panel2": "#192340", "panel3": "#212d4d",
+        "line": "#2b3856", "line2": "#3e4f78",
+        "text": "#d8e4f5", "muted": "#8fa0bf", "dim": "#5a6a89",
+        "blood": "#dd5029", "blood2": "#b13a1c", "gold": "#43d0bb", "gold2": "#2b9f8d",
+        "fluoro": "#72ecd2",
+        "ok": "#47d09a", "info": "#47a0d0", "warn": "#daae49", "danger": "#d94e57"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Orbitron', 'Rajdhani', 'Microsoft YaHei', sans-serif", "'Rajdhani', 'Microsoft YaHei', sans-serif"],
+      "body": ["'Rajdhani', 'Microsoft YaHei', 'Helvetica Neue', sans-serif", "-apple-system, 'PingFang SC', sans-serif"],
+      "mono": ["'Consolas', 'SFMono-Regular', monospace", "'Courier New', Consolas, monospace"]
+    },
+    "motifs": ["⬡", "⬢", "◆"],
+    "anim": ["scan", "pulse"],
+    "radius": 8
+  },
+
+  "desert": {
+    "label": "大漠西域/考古",
+    "palettes": [
+      {
+        "bg": "#14100c", "bg2": "#1b150f", "panel": "#261d13", "panel2": "#2f2518", "panel3": "#3a2d1e",
+        "line": "#4b3c28", "line2": "#665235",
+        "text": "#ebd7a8", "muted": "#b09a6d", "dim": "#77664a",
+        "blood": "#a04a2a", "blood2": "#7d351d", "gold": "#d9b25c", "gold2": "#ac8a41",
+        "star": "#f0dca8",
+        "ok": "#93a05c", "info": "#8ba3a8", "warn": "#d9b25c", "danger": "#b0432c"
+      },
+      {
+        "bg": "#12100e", "bg2": "#191510", "panel": "#241d14", "panel2": "#2d2519", "panel3": "#372d1f",
+        "line": "#483b29", "line2": "#624f34",
+        "text": "#e8d5a6", "muted": "#ab9669", "dim": "#726247",
+        "blood": "#994829", "blood2": "#77331c", "gold": "#d5ad56", "gold2": "#a8853e",
+        "star": "#ecd8a4",
+        "ok": "#8e9b58", "info": "#879fa4", "warn": "#d5ad56", "danger": "#a8402a"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Noto Serif SC', 'Songti SC', Georgia, serif", "'Cinzel', Georgia, 'Songti SC', serif"],
+      "body": ["'Noto Serif SC', 'Songti SC', Georgia, serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["✦", "✧", "☾"],
+    "anim": ["starfall", "sand"],
+    "radius": 4
+  },
+
+  "theatre": {
+    "label": "剧院/派对",
+    "palettes": [
+      {
+        "bg": "#140d0f", "bg2": "#1b1214", "panel": "#26191d", "panel2": "#2f2025", "panel3": "#3a292f",
+        "line": "#4d363e", "line2": "#684a54",
+        "text": "#ecd9d4", "muted": "#b39aa0", "dim": "#7a636a",
+        "blood": "#9e2438", "blood2": "#7c1a2b", "gold": "#d9b26a", "gold2": "#ab8a4d",
+        "champagne": "#f2dfb8",
+        "ok": "#9a8a5e", "info": "#a08aa8", "warn": "#d9b26a", "danger": "#b02c40"
+      },
+      {
+        "bg": "#120d10", "bg2": "#191216", "panel": "#23181d", "panel2": "#2c1f25", "panel3": "#362830",
+        "line": "#48343d", "line2": "#624750",
+        "text": "#e8d5d0", "muted": "#ad959c", "dim": "#765f66",
+        "blood": "#962233", "blood2": "#751828", "gold": "#d5ad65", "gold2": "#a78548",
+        "champagne": "#eedbb4",
+        "ok": "#95865a", "info": "#9b86a4", "warn": "#d5ad65", "danger": "#a8293c"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Playfair Display', Georgia, 'Songti SC', serif", "'Cinzel', Georgia, 'Songti SC', serif"],
+      "body": ["'Cormorant Garamond', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["❖", "✦", "✧"],
+    "anim": ["spotlight", "curtain"],
+    "radius": 10
+  },
+
+  "cyber": {
+    "label": "赛博/未来",
+    "palettes": [
+      {
+        "bg": "#0a0e1a", "bg2": "#0e1422", "panel": "#131a2e", "panel2": "#1a223a", "panel3": "#232c48",
+        "line": "#2a355a", "line2": "#3a4870",
+        "text": "#d8e4ff", "muted": "#8a9bbf", "dim": "#5b6c8a",
+        "blood": "#ff5e8a", "blood2": "#d04d72", "gold": "#6dc7ff", "gold2": "#4ba6e0",
+        "neon": "#5dffa0",
+        "ok": "#5dffa0", "info": "#6dc7ff", "warn": "#ffb86c", "danger": "#ff5e8a"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Orbitron', 'Rajdhani', 'Microsoft YaHei', sans-serif", "'Rajdhani', 'Microsoft YaHei', sans-serif"],
+      "body": ["'Rajdhani', 'Microsoft YaHei', 'Helvetica Neue', sans-serif", "-apple-system, 'PingFang SC', sans-serif"],
+      "mono": ["'Consolas', 'SFMono-Regular', monospace", "'Courier New', Consolas, monospace"]
+    },
+    "motifs": ["⬢", "⬡", "◆"],
+    "anim": ["scan", "glitch"],
+    "radius": 6
+  },
+
+  "qingci": {
+    "label": "青瓷民国/谍战",
+    "palettes": [
+      {
+        "bg": "#1a1f1c", "bg2": "#202723", "panel": "#2a3128", "panel2": "#323b32", "panel3": "#3c4639",
+        "line": "#4a5547", "line2": "#5e6c5b",
+        "text": "#e3e8db", "muted": "#9aa697", "dim": "#6f7c6c",
+        "blood": "#b85547", "blood2": "#9a4539", "gold": "#c9a86a", "gold2": "#a98e54",
+        "celadon": "#8fb5a4",
+        "ok": "#7c9a8e", "info": "#6e8dba", "warn": "#b8995d", "danger": "#b85547"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Noto Serif SC', 'Songti SC', 'SimSun', serif", "'Songti SC', 'SimSun', serif"],
+      "body": ["'Noto Serif SC', 'Songti SC', 'Microsoft YaHei', serif", "-apple-system, 'PingFang SC', sans-serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["❀", "✧", "☰"],
+    "anim": ["smoke", "flicker"],
+    "radius": 6
+  },
+
+  "hospital": {
+    "label": "医院/恐怖",
+    "palettes": [
+      {
+        "bg": "#0e1212", "bg2": "#131818", "panel": "#1a2120", "panel2": "#212a29", "panel3": "#2a3534",
+        "line": "#384442", "line2": "#4e5d5a",
+        "text": "#d5ded8", "muted": "#94a39d", "dim": "#5f6d68",
+        "blood": "#9e3a30", "blood2": "#7c2a22", "gold": "#b5b26a", "gold2": "#8f8c4c",
+        "sterile": "#e2ece6",
+        "ok": "#6f9a72", "info": "#6f9a94", "warn": "#c0a94f", "danger": "#b03a30"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Playfair Display', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "body": ["'Cormorant Garamond', Georgia, 'Songti SC', serif", "-apple-system, 'PingFang SC', sans-serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["✚", "✧", "❖"],
+    "anim": ["heartbeat", "corridor"],
+    "radius": 8
+  },
+
+  "maritime": {
+    "label": "海上/求生",
+    "palettes": [
+      {
+        "bg": "#0d1216", "bg2": "#12181d", "panel": "#192128", "panel2": "#202a32", "panel3": "#29353f",
+        "line": "#35434e", "line2": "#4c5d6a",
+        "text": "#d8e0e4", "muted": "#96a6af", "dim": "#60707a",
+        "blood": "#c25a2a", "blood2": "#99431e", "gold": "#d9b04f", "gold2": "#ac8838",
+        "signal": "#f2c14e",
+        "ok": "#7b9a6e", "info": "#6f9db0", "warn": "#d9b04f", "danger": "#c24a2a"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Playfair Display', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "body": ["'Cormorant Garamond', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["⚓", "✦", "☸"],
+    "anim": ["wave", "fog"],
+    "radius": 6
+  },
+
+  "fantasy": {
+    "label": "奇幻传说/中世纪",
+    "palettes": [
+      {
+        "bg": "#12100e", "bg2": "#181512", "panel": "#221e18", "panel2": "#2b2620", "panel3": "#353029",
+        "line": "#474033", "line2": "#605646",
+        "text": "#eadfc0", "muted": "#b0a282", "dim": "#776b52",
+        "blood": "#8e3526", "blood2": "#6e271b", "gold": "#c9a34e", "gold2": "#9d7c38",
+        "parchment": "#f0e2bc",
+        "ok": "#7f9458", "info": "#7f94a8", "warn": "#c9a34e", "danger": "#9c3228"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Cinzel', Georgia, 'Songti SC', serif", "'Playfair Display', Georgia, serif"],
+      "body": ["'EB Garamond', Georgia, 'Songti SC', serif", "Georgia, 'Songti SC', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["✧", "☙", "✦"],
+    "anim": ["flicker", "glow"],
+    "radius": 4
+  },
+
+  "dunhuang": {
+    "label": "敦煌/楼兰/西域",
+    "palettes": [
+      {
+        "bg": "#1a0f0a", "bg2": "#221510", "panel": "#2c1c14", "panel2": "#38231a", "panel3": "#432b21",
+        "line": "#4a5547", "line2": "#5e6c5b",
+        "text": "#f0d9a8", "muted": "#c9a878", "dim": "#8b6e4c",
+        "blood": "#c8392e", "blood2": "#a02a22",
+        "gold": "#e8b75a", "gold2": "#c4924a",
+        "celadon": "#6b8aa8", "indigo": "#3a4a6b",
+        "ok": "#8aa66e", "info": "#6b8aa8", "warn": "#e8b75a", "danger": "#c8392e"
+      },
+      {
+        "bg": "#0f0a0d", "bg2": "#15101a", "panel": "#1f1822", "panel2": "#2a212c", "panel3": "#352a37",
+        "line": "#473a4a", "line2": "#5e4f65",
+        "text": "#e8d5b8", "muted": "#b09a82", "dim": "#73614c",
+        "blood": "#b8453a", "blood2": "#8e2f26",
+        "gold": "#d4a55a", "gold2": "#a8823e",
+        "celadon": "#5e7896", "indigo": "#4a3a6b",
+        "ok": "#7e9670", "info": "#5e7896", "warn": "#d4a55a", "danger": "#b8453a"
+      }
+    ],
+    "fonts": {
+      "disp": ["'Cinzel', 'STKaiti', 'KaiTi', 'Noto Serif SC', serif", "'Noto Serif SC', 'KaiTi', serif"],
+      "body": ["'Noto Serif SC', 'Songti SC', 'KaiTi', serif", "'Songti SC', 'STKaiti', serif"],
+      "mono": ["'Courier New', Consolas, monospace", "'SFMono-Regular', Consolas, monospace"]
+    },
+    "motifs": ["卍", "❀", "✦", "☉", "❋", "✤"],
+    "anims": ["flicker", "halo", "sand"],
+    "radius": 4
+  },
+
+  "light": {
+    "label": "浅色模式（白天/办公）",
+    "palettes": [
+      {
+        "bg": "#faf6ef", "bg2": "#f1ebde", "panel": "#ffffff", "panel2": "#f7f1e3", "panel3": "#ede5d2",
+        "line": "#d9cfb7", "line2": "#c4b994",
+        "text": "#2a2520", "muted": "#5a4f3f", "dim": "#8b7c66",
+        "blood": "#c8392e", "blood2": "#a02a22", "gold": "#c98c2b", "gold2": "#a8741f",
+        "celadon": "#4f7894", "indigo": "#2e4566",
+        "ok": "#4f8a55", "info": "#4f7894", "warn": "#c98c2b", "danger": "#c8392e"
+      }
+    ],
+    "fonts": {
+      "disp": ["Songti SC", "STKaiti", "KaiTi", "Noto Serif SC", "serif"],
+      "body": ["-apple-system", "PingFang SC", "Microsoft YaHei", "Noto Serif SC", "serif"],
+      "mono": ["SF Mono", "Courier New", "Consolas", "monospace"]
+    },
+    "motifs": ["✦"],
+    "anims": [],
+    "radius": 6
+  },
+
+  "dark": {
+    "label": "深色模式（夜间/护眼）",
+    "palettes": [
+      {
+        "bg": "#0a0a0c", "bg2": "#131318", "panel": "#1a1a20", "panel2": "#232329", "panel3": "#2d2d35",
+        "line": "#353540", "line2": "#444452",
+        "text": "#e8e3d6", "muted": "#9a948a", "dim": "#6b655c",
+        "blood": "#d84a40", "blood2": "#b03a32", "gold": "#d4a55a", "gold2": "#b08a44",
+        "celadon": "#5e7896", "indigo": "#3a4a6b",
+        "ok": "#7a9670", "info": "#5e7896", "warn": "#d4a55a", "danger": "#d84a40"
+      }
+    ],
+    "fonts": {
+      "disp": ["-apple-system", "PingFang SC", "Microsoft YaHei", "sans-serif"],
+      "body": ["-apple-system", "PingFang SC", "Microsoft YaHei", "sans-serif"],
+      "mono": ["SF Mono", "Cascadia Mono", "Consolas", "monospace"]
+    },
+    "motifs": ["◆"],
+    "anims": [],
+    "radius": 4
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "settings": {
+    "port": 3000,
+    "maxSearchesPerArea": 2,
+    "searchIntervalMinutes": 0,
+    "enableMedicalFiles": false,
+    "voteFromStep": 0
+  },
+  "game": {
+    "phase": "setup",
+    "phaseUpdatedAt": 0,
+    "currentStep": -1,
+    "truthUnlocked": false,
+    "announcements": []
+  },
+  "characters": [
+    {
+      "id": "char_a",
+      "name": "Character A",
+      "short": "A",
+      "title": "Title A",
+      "medical": false,
+      "color": "#7fb3d5",
+      "gender": "M",
+      "desc": "Short description shown to all players.",
+      "hint": "DM-only hint shown in DM console.",
+      "secret": "DM-only secret revealed in truth.",
+      "script": "res/scripts/char_a/p1.png",
+      "scriptPages": [
+        "res/scripts/char_a/p1.png",
+        "res/scripts/char_a/p2.png"
+      ],
+      "startClue": {
+        "image": "res/clues/char_a_start.jpg",
+        "text": "Starting clue text revealed immediately after claim."
+      }
+    }
+  ],
+  "players": [],
+  "areas": [
+    {
+      "id": "area_demo",
+      "name": "Demo Area",
+      "apCost": 1,
+      "owner": [],
+      "allowOwner": false,
+      "type": "area",
+      "note": "Optional hint shown to players.",
+      "locked": false,
+      "mapImage": null,
+      "requireUnlocked": null,
+      "clues": [
+        {
+          "id": "c01",
+          "title": "First Clue",
+          "text": "Description of the first clue, multi-line OK.",
+          "card": 1,
+          "state": "locked",
+          "holder": null,
+          "visible": "private",
+          "code": null,
+          "images": [
+            "res/clues/1.jpg"
+          ]
+        },
+        {
+          "id": "c02",
+          "title": "Second Clue",
+          "text": "Description of the second clue.",
+          "card": 0,
+          "state": "locked",
+          "holder": null,
+          "visible": "private",
+          "code": null,
+          "images": []
+        }
+      ]
+    }
+  ],
+  "medicalFiles": [
+    {
+      "id": "m01",
+      "title": "Medical File 1",
+      "card": 0,
+      "state": "locked",
+      "holder": null,
+      "visible": "private",
+      "code": null,
+      "text": "Medical file content.",
+      "note": "DM-only note.",
+      "image": "res/clues/m01.jpg"
+    }
+  ],
+  "timeline": [
+    {
+      "id": "t1",
+      "code": "T01",
+      "time": "19:00",
+      "title": "Phase 1",
+      "text": "Player-facing description.",
+      "dmNote": "DM-only guidance.",
+      "images": []
+    }
+  ],
+  "truth": {
+    "code": "TRUTH",
+    "title": "Truth",
+    "image": null,
+    "text": "Full truth text, multi-line OK.\n\nMore details here."
+  },
+  "rules": [
+    {
+      "id": "r1",
+      "code": "PUB-01",
+      "title": "Player Manual",
+      "file": "res/rules/manual.pdf",
+      "desc": "Game rules reference."
+    }
+  ],
+  "log": []
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>主持人端 · %PROJECT_TITLE%</title>
+<link rel="stylesheet" href="/css/style.css">
+%THEME_CSS%
+<script>
+(function(){
+  var DEFAULT = '%DEFAULT_THEME%';
+  var params = new URLSearchParams(location.search);
+  var stored = localStorage.getItem('mystery_theme');
+  var theme = params.get('theme') || stored || DEFAULT;
+  var root = document.documentElement;
+  root.dataset.theme = theme;
+  if (theme !== DEFAULT && !document.querySelector('link[data-theme-css="' + theme + '"]')) {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = '/css/theme-' + theme + '.css';
+    l.dataset.themeCss = theme;
+    l.onerror = function () {
+      l.remove();
+      root.dataset.theme = DEFAULT;
+      try { localStorage.removeItem('mystery_theme'); } catch (e) {}
+    };
+    document.head.appendChild(l);
+  }
+})();
+</script>
+</head>
+<body data-theme="%DEFAULT_THEME%">
+
+<div id="loginView" class="login-wrap">
+  <div class="login-logo">主持人<em>·</em>端</div>
+  <div class="login-sub">正在连接服务器...</div>
+</div>
+
+<div id="appView" class="hidden">
+  <div id="shell" style="display:flex; min-height:calc(100vh - 60px)">
+    <aside id="sidebar">
+      <div class="side-head">
+        <span class="logo">%PROJECT_LOGO%</span>
+        <button id="sideClose" class="side-close" title="收起"></button>
+      </div>
+      <div class="side-sub">主持人端</div>
+      <nav class="side-nav" id="sideNav"></nav>
+    </aside>
+    <div id="sideMask"></div>
+    <div class="dm-main">
+      <header class="topbar">
+        <div class="brand">
+          <button id="sideOpen" class="side-open" title="展开"></button>
+          <span class="sub" id="pageTitle">总览</span>
+        </div>
+        <div class="top-right">
+          <span class="chip timer-chip" id="timerChip">
+            <span id="timerChipIcon"></span>
+            <span id="timerChipText">总时长 --</span>
+          </span>
+          <span class="chip" id="phaseChip">
+            <span id="phaseChipIcon"></span>
+            <span id="phaseChipText"></span>
+          </span>
+        </div>
+      </header>
+      <main id="dmMain">
+        <section class="view active" id="view-overview"></section>
+        <section class="view" id="view-players"></section>
+        <section class="view" id="view-clues"></section>
+        <section class="view" id="view-medical"></section>
+        <section class="view" id="view-flow"></section>
+        <section class="view" id="view-docs"></section>
+        <section class="view" id="view-truth"></section>
+        <section class="view" id="view-msg"></section>
+        <section class="view" id="view-fight"></section>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<div id="modalRoot"></div>
+
+<script src="/js/common.js"></script>
+<script src="/js/dm.js"></script>
+</body>
+</html>

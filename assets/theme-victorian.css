@@ -1,0 +1,160 @@
+/* Theme: Victorian Old Hotel (维多利亚旧馆)
+ * 适用于：老酒店凶杀案 / 古典庄园 / 哥特式
+ * 关键氛围：昏暗灯光、烛火、维多利亚字体、墨绿+古铜金+深红
+ *
+ * 启用方式：<html data-theme="victorian">
+ * 或运行时切换：document.documentElement.dataset.theme = 'victorian';
+ */
+
+:root[data-theme="victorian"] {
+  /* 主色板 */
+  --bg:        #1a1611;        /* 深棕黑（羊皮纸氧化感） */
+  --bg2:       #211c14;
+  --panel:     #2b251c;        /* 棕褐（古董墙纸） */
+  --panel2:    #352d22;
+  --panel3:    #3f3628;
+  --line:      #4d4231;
+  --line2:     #665842;
+  --text:      #e8d9b8;        /* 米黄（羊皮纸） */
+  --muted:     #a89773;
+  --dim:       #6e6147;
+
+  /* 强调色 */
+  --blood:     #8b1a1a;        /* 维多利亚深红（血/封印蜡） */
+  --blood2:    #6b1010;
+  --gold:      #c89f5a;        /* 古铜金（烛台） */
+  --gold2:     #a37d3e;
+  --candle:    #f4e3a8;        /* 烛火（高亮） */
+
+  /* 状态色 */
+  --ok:        #6b8e4e;
+  --info:      #6a8caa;
+  --warn:      #c89f5a;
+  --danger:    #a83333;
+
+  /* 字体 */
+  --font-disp: 'Playfair Display', Georgia, 'Times New Roman', 'Songti SC', serif;
+  --font-body: 'EB Garamond', 'Cormorant Garamond', Georgia, 'Songti SC', serif;
+  --font-mono: 'Courier New', 'SFMono-Regular', Consolas, monospace;
+
+  /* 装饰 */
+  --radius:    4px;            /* 更锐利的边角 */
+  --radius-sm: 2px;
+  --shadow:    0 8px 28px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, .75);
+  --border-style: 1px solid var(--line2);
+  --ornament: '❦';             /* Victorian flourish */
+}
+
+/* 维多利亚主题的特殊装饰 */
+[data-theme="victorian"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(244, 227, 168, .05) 0%, transparent  40%),
+    radial-gradient(ellipse at 80% 70%, rgba(200, 159, 90, .04) 0%, transparent  40%),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0px, transparent 80px,
+      rgba(139, 26, 26, .02) 80px, rgba(139, 26, 26, .02) 81px
+    );
+}
+
+[data-theme="victorian"] .topbar {
+  background: rgba(26, 22, 17, .92);
+  border-bottom: 2px double var(--gold2);
+}
+
+[data-theme="victorian"] .card {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+  border: 1px solid var(--line2);
+  position: relative;
+}
+[data-theme="victorian"] .card::before,
+[data-theme="victorian"] .card::after {
+  content: var(--ornament);
+  position: absolute;
+  color: var(--gold);
+  font-size: 14px;
+  opacity: .35;
+}
+[data-theme="victorian"] .card::before { top: 4px; left: 8px; }
+[data-theme="victorian"] .card::after { bottom: 4px; right: 8px; }
+
+[data-theme="victorian"] .brand .logo {
+  font-family: var(--font-disp);
+  font-style: italic;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-shadow: 0 0 8px rgba(200, 159, 90, .3);
+}
+
+[data-theme="victorian"] .ap-pill {
+  border: 1px solid var(--gold);
+  background: var(--panel);
+  color: var(--candle);
+  font-family: var(--font-disp);
+  letter-spacing: 2px;
+}
+
+[data-theme="victorian"] .code-chip {
+  font-family: 'Courier New', monospace;
+  background: rgba(0, 0, 0, .3);
+  color: var(--candle);
+  border: 1px dashed var(--gold);
+}
+
+[data-theme="victorian"] .truth-card {
+  background: linear-gradient(180deg, var(--panel) 0%, var(--bg2) 100%);
+  border: 2px double var(--blood);
+  position: relative;
+}
+[data-theme="victorian"] .truth-card::before {
+  content: "T R U T H";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  padding: 0 16px;
+  font-family: var(--font-disp);
+  letter-spacing: 12px;
+  color: var(--blood);
+  font-size: 14px;
+}
+
+[data-theme="victorian"] .lock-mask {
+  background: rgba(26, 22, 17, .6);
+  border: 1px dashed var(--gold2);
+  color: var(--gold);
+}
+
+[data-theme="victorian"] .toast.reveal {
+  border: 1px double var(--blood);
+  background:
+    linear-gradient(180deg, rgba(139, 26, 26, .15) 0%, rgba(26, 22, 17, .96) 100%),
+    radial-gradient(circle at center, rgba(244, 227, 168, .08), transparent 70%);
+  box-shadow: 0 0 32px rgba(244, 227, 168, .25);
+}
+
+/* 烛火摇曳动画（用于 phase chip） */
+@keyframes flicker {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--candle); }
+  25% { opacity: .85; box-shadow: 0 0 14px var(--candle); }
+  50% { opacity: .95; box-shadow: 0 0 6px var(--candle); }
+  75% { opacity: .9; box-shadow: 0 0 12px var(--candle); }
+}
+[data-theme="victorian"] #phaseChip {
+  animation: flicker 3s ease-in-out infinite;
+}
+
+/* 维多利亚角色主题色覆盖（更协调的色板） */
+[data-theme="victorian"] .cname[data-color="tom"]    { color: #8b7355; }
+[data-theme="victorian"] .cname[data-color="jake"]   { color: #c89f5a; }
+[data-theme="victorian"] .cname[data-color="tina"]   { color: #b9a3d4; }
+[data-theme="victorian"] .cname[data-color="trinity"]{ color: #b94a4a; }
+[data-theme="victorian"] .cname[data-color="richard"]{ color: #6b4d8b; }
+[data-theme="victorian"] .cname[data-color="jonny"]  { color: #7a8a6b; }
