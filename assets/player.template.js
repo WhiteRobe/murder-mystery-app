@@ -607,6 +607,20 @@ function renderTruth() {
       <div class="clue-text" id="truthBody">${highlight(t.text || '').split('\n').map(p => `<p>${p}</p>`).join('')}</div>
       ${t.code ? `<div class="code-row">${codeChip(t.code).outerHTML}</div>` : ''}
     </div>
+    ${(t.timeline || []).length ? `
+    <div class="card" style="margin-top:12px">
+      <div class="card-title">${I.history} 作案时间线</div>
+      <div class="muted small" style="margin-bottom:8px">案发当晚各角色真实行踪。</div>
+      <div class="stepper">
+        ${t.timeline.map(x => `
+          <div class="step past">
+            <div class="step-time">${esc(x.time)}</div>
+            <div class="step-title">${esc(x.title)}</div>
+            <div class="step-text">${highlight(x.text || '')}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>` : ''}
     ${relGraph}
   `;
   /* §37 p5 demo 反哺：truth 揭晓时整个 .truth-card 做 fade-in 动画（保留 highlight 主题色，不破坏 cname span） */

@@ -540,16 +540,18 @@ function truthPanelHTML() {
     </div>
 
     <div class="card">
-      <div class="card-title">${I.history} 时间线梳理</div>
+      <div class="card-title">${I.history} 作案时间线</div>
+      <div class="muted small" style="margin-bottom:8px">案发当晚各角色真实行踪（数据源 truth.timeline，非游戏流程）。</div>
+      ${(truth.timeline || []).length ? `
       <div class="stepper">
-        ${ST.timeline.map((t, i) => `
-          <div class="step ${i === ST.game.currentStep ? 'current' : 'past'}">
-            <div class="step-time">${esc(t.time)} · ${esc(t.code)}</div>
+        ${truth.timeline.map(t => `
+          <div class="step past">
+            <div class="step-time">${esc(t.time)}</div>
             <div class="step-title">${esc(t.title)}</div>
             <div class="step-text">${highlightText(t.text || '')}</div>
           </div>
         `).join('')}
-      </div>
+      </div>` : `<div class="muted small">data.json 未在 truth.timeline 中给出作案时间线，此处沿用游戏流程时间线。</div>`}
     </div>
 
     <div class="card">

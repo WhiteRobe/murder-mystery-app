@@ -107,7 +107,16 @@
     "code": "TRUTH",
     "title": "Truth",
     "image": null,
-    "text": "Full truth text, multi-line OK.\n\nMore details here."
+    "text": "Full truth text, multi-line OK.\n\nMore details here.",
+    "characters": [],
+    "relations": [],
+    "method": "How the murder was committed, one paragraph.",
+    "motive": "Why the murderer did it, one paragraph.",
+    "timeline": [
+      { "time": "19:00", "title": "Suspect A visits victim", "text": "What actually happened at this time." },
+      { "time": "20:00", "title": "Suspect B confronts victim", "text": "What actually happened at this time." },
+      { "time": "22:10", "title": "Murder", "text": "The killer's decisive action and the murder itself." }
+    ]
   },
   "rules": [
     {

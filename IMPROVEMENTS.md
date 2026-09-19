@@ -27,7 +27,15 @@
   无 olefile 时退化启发式扫描），抽取结果去 BOM/控制符/空行。
 - **纯文字剧本不要再转成 PNG**：data.json 的 `script`/`scriptPages` 应直接指向 `res/text/*.txt`，
   `player.template.js` 已支持 `.txt/.md` 内联文本渲染（含角色主题色高亮），构建阶段不再把文本转图。
-- 经验已写入 `SKILL.md` 源格式表/原则行、`references/10-script-paradigms.md` 第 10 范式。
+- **纯文字线索也不要配图**：线索本身有 `text` 字段，前端 `clueCard` 已渲染文本。若 `images` 里只是
+  "黑底白字卡片"（复制 text 内容、无手绘/实物/示意图），一律置 `images: []` 省体积。
+  只有真正的视觉信息（手绘示意图/照片/地图/立绘）才配图。约定已写入 `references/02-data-schema.md`。
+- **"真相中的时间线"须是作案时间线，不是游戏流程**：DM 真相复盘「时间线梳理」曾误渲染顶层
+  `ST.timeline`（T01–T08 游戏阶段）。现改为：真相页/复盘的时间线一律读 `truth.timeline`（案发当晚各角色
+  真实行踪，由角色剧本【行踪】+真凶手法汇总）。`truth.timeline` 每条 `{ time, title, text }`。
+  两个 timeline 的区别表见 `references/10-script-paradigms.md` 范式 6。
+- 经验已写入 `SKILL.md` 源格式表/原则行、`references/10-script-paradigms.md` 第 10 范式、
+  `references/02-data-schema.md` 线索配图取舍。
 
 ## 2. data.json 生成与模板化
 
