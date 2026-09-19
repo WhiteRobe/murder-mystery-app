@@ -27,6 +27,7 @@
   "searchIntervalMinutes": 0,    // 同区域搜索冷却（分钟，0=无冷却）
   "voteFromStep": 0,             // §37 R57：指认投票开放的剧情步（timeline 索引，默认 0=一进 started 即可投）。
                                  // 剧本有"指认投票"专属节点时设为该节点索引，未推进到前玩家端锁定+服务端拒绝
+  "apDefault": 7,                // 创建玩家时的初始 AP 默认值（可选，缺省 10；玩家创建请求显式传 ap 时优先）
   "enableMedicalFiles": false    // 角色专长档案/医疗档案（可选机制），data.json 有 medicalFiles 且设 true 才启用
 }
 ```

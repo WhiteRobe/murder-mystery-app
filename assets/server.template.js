@@ -720,13 +720,16 @@ function dmCreatePlayer(body) {
     }
   }
   const code = claimCode();
+  /* 初始 AP：创建请求显式指定 > settings.apDefault（data.json 按剧本设定） > 10 */
+  const apDefault = (DB.settings && typeof DB.settings.apDefault === 'number' && DB.settings.apDefault > 0) ? DB.settings.apDefault : 10;
+  const apInit = body.ap || apDefault;
   const p = {
     id: 'p' + (DB.players.length + 1) + '_' + randStr(3).toLowerCase(),
     playerName: body.playerName || ('玩家 ' + (DB.players.length + 1)),
     characterId: body.characterId,
     claimCode: code,
-    ap: body.ap || 10,
-    apTotal: body.ap || 10,
+    ap: apInit,
+    apTotal: apInit,
     searches: {},
     vote: null,
     notifications: [],
