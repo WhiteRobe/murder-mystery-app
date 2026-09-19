@@ -287,7 +287,7 @@ function renderHome() {
       </div>
       <div class="stat-mini">
         <div class="stat-cell"><div class="v">${ST.me.ap}</div><div class="l">AP</div></div>
-        <div class="stat-cell"><div class="v">${ST.game.currentStep + 1}/${ST.timeline.length}</div><div class="l">剧情步</div></div>
+        <div class="stat-cell"><div class="v">${ST.game.currentStep + 1}/${ST.timeline.length}</div><div class="l">剧情阶段</div></div>
       </div>
     </div>
     ${ST.startClue ? `<div class="card clue-card">
@@ -306,14 +306,14 @@ function renderHome() {
       /* §26 反哺：投票面板始终展示，按 phase + truthUnlocked 控制可用性 */
       const phase = ST.game.phase;
       const truthOpen = !!ST.game.truthUnlocked;
-      /* R57：与服务端 doVote 同判据——未推进到 settings.voteFromStep 指定的剧情步前不可投 */
+      /* R57：与服务端 doVote 同判据——未推进到 settings.voteFromStep 指定的剧情阶段前不可投 */
       const voteFrom = (ST.settings && typeof ST.settings.voteFromStep === 'number') ? ST.settings.voteFromStep : 0;
       const voteLocked = phase === 'started' && !truthOpen && ST.game.currentStep < voteFrom;
       const canVote = phase === 'started' && !truthOpen && !voteLocked;
       const reason = !canVote
         ? (truthOpen
             ? '真相已揭晓，投票关闭'
-            : voteLocked ? `指认投票未开放（推进到剧情步 ${voteFrom + 1} 后开启）`
+            : voteLocked ? `指认投票未开放（推进到剧情阶段 ${voteFrom + 1} 后开启）`
             : (phase === 'setup' ? '等待游戏开始（当前：筹备）'
               : phase === 'prologue' ? '序幕阶段，投票尚未开放'
               : phase === 'reveal' ? '真相阶段，投票已关闭'

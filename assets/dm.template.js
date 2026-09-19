@@ -224,9 +224,9 @@ function renderOverview() {
     <div class="start-line"></div>
     <h1>总览</h1>
     <div class="stat-row">
-      <div class="stat-cell"><div class="v">${claimed}/${totalChars}</div><div class="l">已认领</div></div>
-      <div class="stat-cell"><div class="v">${unlockedClues}/${totalClues}</div><div class="l">已解锁</div></div>
-      <div class="stat-cell"><div class="v">${stepLabel}</div><div class="l">剧情步</div></div>
+      <div class="stat-cell"><div class="v">${claimed}/${totalChars}</div><div class="l">已认领角色</div></div>
+      <div class="stat-cell"><div class="v">${unlockedClues}/${totalClues}</div><div class="l">已解锁线索</div></div>
+      <div class="stat-cell"><div class="v">${stepLabel}</div><div class="l">剧情阶段</div></div>
     </div>
 
     <div class="card">
@@ -236,7 +236,7 @@ function renderOverview() {
 
     <div class="card">
       <div class="card-title">${I.history}剧情控制</div>
-      <div class="muted small mt">阶段：<b style="color:var(--gold)">${PHASE_LABEL[phase]?.label || phase}</b>　·　剧情步：<b style="color:var(--gold)">${stepLabel}</b></div>
+      <div class="muted small mt">阶段：<b style="color:var(--gold)">${PHASE_LABEL[phase]?.label || phase}</b>　·　剧情阶段：<b style="color:var(--gold)">${stepLabel}</b></div>
       <div class="stepper" style="margin-top:8px">
         ${ST.timeline.map((t, i) => {
           const state = i < ST.game.currentStep ? 'past' : (i === ST.game.currentStep ? 'current' : '');
@@ -323,7 +323,7 @@ function renderPlayers() {
       <span class="char-dot" style="background:${esc(c.color)}"></span>
       <div class="char-name">${esc(c.name)}</div>
       <div class="char-title">${esc(c.title)}</div>
-      ${taken ? '<span class="chip blood">已认领</span>' : '<span class="chip ok">可选</span>'}
+      ${taken ? '<span class="chip blood">已认领角色</span>' : '<span class="chip ok">可选</span>'}
     </div>`;
   }).join('');
   $('#view-players').innerHTML = `
@@ -478,7 +478,7 @@ function renderMedical() {
     ${ST.medicalFiles.length === 0 ? emptyState('暂无医疗档案', 'shield') : ''}
     ${ST.medicalFiles.map(m => {
       const stateBadge = m.state === 'unlocked'
-        ? '<span class="badge ok">已解锁</span>'
+        ? '<span class="badge ok">已解锁档案</span>'
         : '<span class="badge">已锁定</span>';
       return `<div class="card">
         <div class="head">
@@ -508,7 +508,7 @@ function renderMedical() {
 
 /* ===== DM 真相复盘面板（仅 truthUnlocked 后可见） ===== */
 let dmTruthPeek = false;      /* 手动查看标记（会话内有效） */
-let dmTruthPeekStep = -99;    /* 在哪个剧情步查看的：回退剧情后重新遮蔽 */
+let dmTruthPeekStep = -99;    /* 在哪个剧情阶段查看的：回退剧情后重新遮蔽 */
 function renderDmTruth() {
   if (ST.game.currentStep < dmTruthPeekStep) { dmTruthPeek = false; dmTruthPeekStep = -99; }
   if (ST.game.truthUnlocked || dmTruthPeek) { $('#view-truth').innerHTML = truthPanelHTML(); return; }

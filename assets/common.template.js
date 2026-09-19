@@ -86,11 +86,18 @@ function registerCharacter(id, name, color, short) {
 }
 function highlight(text) {
   let s = esc(text);
-  for (const [name, key] of CHAR_NAMES) {
-    const c = CHAR_COLORS[key] || '#888';
-    s = s.split(name).join(`<span class="cname" data-color="${key}" style="--c:${c}">${name}</span>`);
-  }
-  return s;
+  if (!CHAR_NAMES.length) return s;
+  /* 单趟最长优先匹配：长名先于短名，避免短名抢占长名子串；整段只替换一次，避免已生成的 span 被二次扫描产生嵌套 */
+  const order = CHAR_NAMES
+    .map(([name, key]) => [esc(name), key])
+    .filter(([n]) => n)
+    .sort((a, b) => b[0].length - a[0].length);
+  const re = new RegExp(order.map(([n]) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g');
+  return s.replace(re, (m) => {
+    const hit = order.find(([n]) => n === m);
+    const c = CHAR_COLORS[hit[1]] || '#888';
+    return `<span class="cname" data-color="${hit[1]}" style="--c:${c}">${m}</span>`;
+  });
 }
 
 /* API */

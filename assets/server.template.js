@@ -757,9 +757,12 @@ function dmUpdatePlayer(body) {
   const p = getPlayer(body.playerId);
   if (!p) return { ok: false, error: '玩家不存在。' };
   if (body.playerName) p.playerName = body.playerName;
-  if (body.characterId) {
+  if (body.characterId && body.characterId !== p.characterId) {
     const char = getCharacter(body.characterId);
     if (!char) return { ok: false, error: '角色不存在。' };
+    /* §39 反哺：改角色号同样校验唯一性（一个角色只能分配给一位玩家） */
+    const occupied = DB.players.find(o => o.id !== p.id && o.characterId === body.characterId);
+    if (occupied) return { ok: false, error: `角色「${char.name}」已被玩家「${occupied.playerName || occupied.id}」认领，请选择其他角色。` };
     p.characterId = body.characterId;
   }
   saveDB();

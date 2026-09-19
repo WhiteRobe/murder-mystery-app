@@ -1859,3 +1859,14 @@ if (c.visible === 'public') {
 **通用教训（D2）**：Windows + Node 里 `spawnSync('npx', …)` = npx.cmd，不 `shell:true` 就是"假成功真静默"——所有包装 CLI 的脚本必须校验退出码且失败即抛。
 
 **附带产出**：`assets/extract-doc.py`（olefile 解析 `.doc` 的 `WordDocument` 流，UTF-16-LE/GBK 选优，无 olefile 退化启发式扫描）；SKILL.md Step1 新增「读取各种剧本文件（通用）」分派表。
+
+### 37.18 · R73-R76 故障整改与术语统一（应用 + 技能模板同步）
+
+| # | 项 | 处理 |
+|---|-----|------|
+| R73 | 同一角色仍能被创建多次 | 根因：本地/远端（含 CF 模板 `assets/server.template.cf.js`）的 `dmUpdatePlayer` 直改 `characterId` 不校验；远端 CF 模板 `dmCreatePlayer` 也缺校验。已在全部后端（本地 `server.js`、远端 `src/server.cf.js`、远端 `assets/server.template.cf.js`、技能 `assets/server.template.js`）的 `dmCreatePlayer` + `dmUpdatePlayer` 增加角色唯一性校验：改角色号前遍历 `loadPlayersIdx/DB.players`，若该 `characterId` 已被他人认领返回「该角色已被认领，请选择其他角色。」。注意本地/技能模板 `dmCreatePlayer` 保留 `force:true` 显式复用通道，DM 前端调用不传 `force` |
+| R74 | 人物名上色有问题 | `highlight()` 原实现 `split(name).join()` 逐名替换，短名优先注册假象、长名子串被短名抢占、且替换产物会被后续名字再次扫描产生嵌套 span。重写为**单趟最长优先正则**：先转义 `esc(name)`、按长度降序、`RegExp` 交替全局一次性替换，`replace` 回调不重扫已生成 span，彻底规避抢占/嵌套/未转义。三份 `common.js`（本地/远端/`common.template.js`）保持一致 |
+| R75 | 主持人端重置未全部还原 | `dmReset` 已通过 `defaultGame()` 恢复 `phase:'setup'`、`currentStep:-1`、`truthUnlocked:false`、`round:1` 等全部初始态，并清空玩家/兑换码/所有线索与医疗档案状态（locked/无 holder/无 code）；本次复核确认逻辑完备，无需改动 |
+| R76 | 术语不统一 | 界面统一：`剧情步→剧情阶段`、`已认领→已认领角色`、`已解锁→已解锁线索`（总览统计卡）、医疗档案状态 `已解锁→已解锁档案`，含角色卡认领 chip；`区域与线索` 段内与「已锁定」成对的线索状态、以及「已解锁 n/m」计数属无歧义语境，保持原样。已同步本地/远端/`dm.template.js`/`player.template.js` 四份 dm/player 前端**
+
+**验证**：DC 端/玩家端文件 `node --check` 通过；旧术语扫描仅剩 `区域与线索` 两处无歧义保留项；模板无具体剧本字样（鬼妹妹/韩信傅/华丽的背后 等均为空）；本地应用需重启后方加载新前端代码，远端需重新 deploy 后生效。
