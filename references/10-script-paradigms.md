@@ -398,7 +398,12 @@ function renderTruth(st) {
 - 全部 clue 设 `unlockStep: 1`（首轮讨论期间不可搜，DM 推进到第二轮节点后开放）；
   若剧本有三轮，则第二轮包 `unlockStep:1`、第三轮包 `unlockStep:2`，`timeline[]` 对应增加节点
 - 抽取工具：`extract-docx.py` 出文本后**逐条人读过**再入库，条目序号（①-⑥）转为 clue 顺序即可；
-  纯文本剧本用 `res/scripts/<id>/p1.txt`（UTF-8）作 `script`/`scriptPages`，玩家端内联渲染
+  纯文本剧本用 `res/scripts/<id>/p1.txt`（UTF-8）作 `script`/`scriptPages`，玩家端内联渲染。
+  注意两点（踩坑经验）：
+  - **纯文字剧本勿转 PNG**——直接抽成 `.txt` 让玩家端内联文本渲染（可主题色高亮、体积小、无模糊）；
+    只有真·分页图（PDF 截页）才用 `scriptPages` 多页图片。
+  - `.doc` 须用 `extract-doc.py` 的 piece-table 精确抽取（`fcClx→PlcPcd`），不要整流解码
+    整个 `WordDocument` 流——否则 FIB 头/格式段会混进正文，剧本开头出现乱码。
 
 **前置展示（§37 反哺模板）**：`playerState` 暴露 `unlockStep`，玩家端把未到轮次的区域渲染成
 "未开放（剧情推进后可搜）"禁用态——避免第一轮玩家面对一堆点了没结果的搜证按钮。

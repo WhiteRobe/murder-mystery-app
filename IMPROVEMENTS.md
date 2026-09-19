@@ -21,6 +21,14 @@
 4. **`prompts/p2-data-authoring.md`**：必须明确"多种格式混合"的处理流程
 5. **优先 docx → fallback 手动**: 优先用 mammoth 抽 docx，老 .doc 报告缺失
 
+### 已落地补充（.doc 乱码 / 纯文字转图 实战验证）
+- **老 `.doc` 整流解码会带 FIB 头/格式段垃圾进正文 → 剧本开头乱码**：`assets/extract-doc.py`
+  已落地用 piece-table 精确抽取（olefile 解析 `WordDocument` 流的 `fcClx→PlcPcd`，只读各 piece 文本区间，
+  无 olefile 时退化启发式扫描），抽取结果去 BOM/控制符/空行。
+- **纯文字剧本不要再转成 PNG**：data.json 的 `script`/`scriptPages` 应直接指向 `res/text/*.txt`，
+  `player.template.js` 已支持 `.txt/.md` 内联文本渲染（含角色主题色高亮），构建阶段不再把文本转图。
+- 经验已写入 `SKILL.md` 源格式表/原则行、`references/10-script-paradigms.md` 第 10 范式。
+
 ## 2. data.json 生成与模板化
 
 ### 现状

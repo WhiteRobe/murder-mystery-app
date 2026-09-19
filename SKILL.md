@@ -90,7 +90,7 @@ docx 剧本可用 `assets/extract-docx.py`（零依赖）抽取文本：`python 
 | 源文件格式 | 用什么读 | 产出 |
 |-----------|---------|------|
 | `.docx`（zip+XML） | `assets/extract-docx.py`（零依赖，标准库 zipfile+xml） | Markdown 风格 `.txt`，保留标题层级与表格 |
-| `.doc`（旧二进制 OLE） | `assets/extract-doc.py`（olefile 解析 `WordDocument` 流；无 olefile 自动退化启发式扫描） | 纯文本 `.txt`（UTF-16-LE / GBK 自动选优） |
+| `.doc`（旧二进制 OLE） | `assets/extract-doc.py`（olefile 解析 `WordDocument` 流，**走 piece-table 精确抽取 `fcClx→PlcPcd`，避免 FIB 头/格式段混入正文导致开头乱码**；无 olefile 自动退化启发式扫描） | 纯文本 `.txt`（UTF-16-LE / GBK 自动选优，去 BOM/控制符） |
 | `.txt` / Markdown | 直接 Read 原样读 | 原文本 |
 | `.pdf` | `comments/pdf` 工具抽取文本，或 `pdf-to-png` 截页（若 PDF 是分页图/中文无文本层就截页） | 文本 or 分页 PNG |
 | 图片（线索卡/封面/地图） | 读图理解内容/配色；进 `res/` 作资源，不转文字 | 资源路径 |
@@ -98,6 +98,7 @@ docx 剧本可用 `assets/extract-docx.py`（零依赖）抽取文本：`python 
 
 原则：**工具必须通用**——脚本只接收文件路径，不写死任何具体剧本文件名；
 能力上先 Text 原生读（txt/md），docx/doc 用上述脚本抽文本，
+**纯文字剧本一律保留为 `.txt` 内联文本渲染，绝不转成图片**（体积小、可高亮、无模糊）；
 PDF 无文本层就截页，图片一律当资源。抽取失败必须写出 `[EMPTY]` 占位并提示人工补全，绝不静默产出空内容。
 
 10 种抽取范式（源材料 → data.json 建模，详见 `references/10-script-paradigms.md`）：
