@@ -117,7 +117,7 @@
   "id": "c04",
   "title": "雄性激素订单",                 // 玩家端可见标题
   "text": "你发现了一张雄性激素的订单...",  // 正文（多行 / 富文本）
-  "card": 4,                                // 配图编号（0=无图）；对应 res/clues/4号线索.jpg
+  "card": 1,                                // 是否有配图：0=无图 1=有图（validate-data 强制 0/1）；配图路径写在 images[]
   "state": "locked",                        // locked / unlocked
   "holder": null,                           // 解锁者 playerId（unlocked 时必有）
   "visible": "private",                     // private / public
@@ -236,7 +236,7 @@
 { "time": 1700000000000, "text": "[公告] ..." }
 ```
 
-## dmRefs（在 dmState 中返回，不在顶层）
+## dmRefs（**在 data.json 顶层编写**；运行时由 dmState 响应返回）
 
 ```jsonc
 {

@@ -1870,3 +1870,15 @@ if (c.visible === 'public') {
 | R76 | 术语不统一 | 界面统一：`剧情步→剧情阶段`、`已认领→已认领角色`、`已解锁→已解锁线索`（总览统计卡）、医疗档案状态 `已解锁→已解锁档案`，含角色卡认领 chip；`区域与线索` 段内与「已锁定」成对的线索状态、以及「已解锁 n/m」计数属无歧义语境，保持原样。已同步本地/远端/`dm.template.js`/`player.template.js` 四份 dm/player 前端**
 
 **验证**：DC 端/玩家端文件 `node --check` 通过；旧术语扫描仅剩 `区域与线索` 两处无歧义保留项；模板无具体剧本字样（鬼妹妹/韩信傅/华丽的背后 等均为空）；本地应用需重启后方加载新前端代码，远端需重新 deploy 后生效。
+
+### 37.19 · 纯文本+图片线索剧本实战：validator/文档/NPC 三处踩坑（全为通用问题）
+
+| # | 问题 | 根因 | 处理 |
+|---|------|------|------|
+| V1 | build 质检报 `clues[].card 非法: undefined（须 0/1）`（69 条全数报错） | validate-data 强制每条 clue 的 `card` 必须是 0/1，但 02-data-schema.md 的示例写的是 `"card": 4`（编号），且注释把 card 描述为旧字段——**文档与校验器漂移**。图片路径其实全在 `images[]` | 数据侧：脚本批量补 `card = images.length>0 ? 1 : 0`；文档侧：card 注释改为「0=无图 1=有图（validate-data 强制 0/1），配图路径写在 images[]」。**教训：schema 示例必须与 validator 逐字段对齐，'建议两者都给'的字段不能在示例里给非法值** |
+| V2 | NPC/死者角色（无剧本文件）导致质检报 `characters[N].script 必须是 res/ 开头的路径` | validate-data 对 characters[] 一视同仁要求 script/scriptPages；而剧本常有死者/NPC 需要进 characters[]（供 highlight 主题色与人物关系展示）却不可认领 | 实践解法：给 NPC 写一页 `res/scripts/<id>/p1.txt`（死者档案）。**建议（未实现）：characters[] 增加 `npc: true` 字段——validator 免查 script，DM 选角网格置灰不可选**，避免 NPC 被误创建为玩家（本次实战中 NPC 在 DM 端显示「可选」） |
+| V3 | `dmRefs` 按文档「不在顶层」的表述未写入 data.json，DM 端访问 dmRef 全 403 | 02-data-schema.md 标题「dmRefs（在 dmState 中返回，不在顶层）」指的是**响应**位置，极易误读成 data.json 里也不放顶层；而 server 的 `DB.dmRefs` 只认 data.json 顶层 | 文档改为「**在 data.json 顶层编写**；运行时由 dmState 响应返回」。**教训：'X 在 Y 中返回'必须写清'编写位置'与'返回位置'是两件事** |
+| V4 | 对照 API 手写集成脚本时 `/api/dm/step` 传 `{delta:1}` 无效，后续断言全部空转 | 未先读 04-server-api.md——该端点入参是**绝对索引** `{step: N}` | **教训：对既有 API 写集成脚本前，先按 reference 的入参表核对再动手**（04 文档本身无误） |
+| V5 | 资源准备脚本把同一源图复制到两个目的地只落了一份：远端 resindex(104) 与本地文件(103) 差 1，被 check-res 抓出 | JS 对象字面量**重复键静默丢弃前者**（同源图需同时进 dmrefs/ 与 truth/ 两处） | 资源准备脚本拆成两张映射表分别拷贝。**教训：copy 类脚本应断言『拷贝文件数 == 注册引用数』，映射表禁止同键**；check-res 质检关卡实战中确实兜住了 |
+
+**验证**：card 批量补齐 + NPC 档案页后 build 质检全绿；dmRefs 顶层编写后 DM 端 7 个资料全部 200。
