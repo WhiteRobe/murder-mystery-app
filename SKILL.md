@@ -39,7 +39,7 @@ description: |
 | 17 | 认领页主题化：玩家端认领页按剧本标题定制（`%PROJECT_TITLE%` 大标题 + `%CLAIM_SUB%` 副标题 + 装饰分隔线 + 4 位大输入框），不做通用"输入认领码"字样 | `assets/player.template.html` + `assets/style.template.css` |
 | 18 | UI 细节规范：滚动条美化（thin + 主题色 thumb）、无重复顶栏元素（phaseChip/apPill 唯一）、轮询用 `stateSig` 签名避免无谓重渲染、时间段禁用内联 `tabular-nums` | `assets/style.template.css` + `assets/{player,dm}.template.js` |
 | 19 | 视觉主题贴合剧本题材：模板只是参考，**实际以剧本主题为准**创造独特视觉；主题必须**同时适配移动端竖屏与宽屏**；用 `gen-theme.cjs` 从题材候选池生成（seed 可复现、对比度自校验、随机只在池内），或 `palette.py` 从封面图/色相定制；HTML 以 `data-theme` 切换、`?theme=` 运行时切换；build 把全部预置主题拷入 `css/` 形成切换库，目标 CSS 未 link 时动态加载、失败回退默认（切换无 404） | `references/11-visual-design.md` + `assets/gen-theme.template.cjs` + `assets/theme-presets.template.json` + `assets/palette.py` |
-| 20 | 脚本化构建：用 `build.cjs` 一键组装（资源拷贝 + 模板填充 + 主题接入 + 质检关卡）；`validate-data.cjs` 校验 data.json schema；`check-res.cjs` 核对所有 `res/` 引用真实存在；Node 主 + Python 辅（`extract-docx.py` 抽 docx 文本、`palette.py` 出定制色板） | `assets/build.template.cjs` + `assets/validate-data.template.cjs` + `assets/check-res.template.cjs` + `assets/extract-docx.py` + `assets/palette.py` |
+| 20 | 脚本化构建：用 `build.cjs` 一键组装（资源拷贝 + 模板填充 + 主题接入 + 质检关卡）；`validate-data.cjs` 校验 data.json schema；`check-res.cjs` 核对所有 `res/` 引用真实存在；Node 主 + Python 辅（`extract-docx.py` 抽 docx、`extract-doc.py` 抽旧版 doc、`palette.py` 出定制色板） | `assets/build.template.cjs` + `assets/validate-data.template.cjs` + `assets/check-res.template.cjs` + `assets/extract-docx.py` + `assets/extract-doc.py` + `assets/palette.py` |
 | 21 | 脚本与工具参数化：脚本里**禁止硬编码剧本专属值**——`api-flow-test` 的 BASE 端口用 `%PORT_DEFAULT%`、测试角色/嫌疑 id 用 `A_CHAR_ID/B_CHAR_ID/A_VOTE_ID/B_VOTE_ID` 占位符，build.cjs 自动从 data.json 头两位角色填入并暴露 `--player-a-id/--player-b-id/--player-a-vote/--player-b-vote` 覆盖；`pdf-to-png` 的 `--in` 支持单文件或目录 | `assets/api-flow-test.template.cjs` + `assets/pdf-to-png.template.cjs` + `assets/build.template.cjs` |
 | 22 | 剧本杀机制范式（机制范式 M1..M8 见 `references/12-mechanics-paradigms.md`；另有 M9/M10/M11 经济/抢夺/交易**设计稿未实现**见 `references/15`）：已实现 = M1（5阶段线性，默认）、M6（打斗/裁决，`combatEnabled`）、M8（玩家私聊，`allowPrivateMessages`，详见 references/14）+ **角色专长档案/医疗档案**（可选开关 `enableMedicalFiles`，schema 在 `references/02-data-schema.md`，状态机在 `references/03`）；M2/3/4/5/7 为"待实现"设计。实现状态以 references/12 总览表为准，勿在其他文件复述以免漂移 | `references/12-mechanics-paradigms.md` + `references/14-private-messaging.md` + `references/02-data-schema.md` |
 | 23 | 玩家私聊 + 打斗/裁决 通用机制：①私聊走 `game.messages[]` 服务端落盘 + 玩家端 HTTP 轮询（`/api/player/messages?since=<seq>`），不引 WebSocket；未读数走 chip 红点；DM 默认可见全部私聊（`settings.dmMonitorPrivateMessages` 可关），DM 可定向/全员广播；开关 `settings.allowPrivateMessages`；**隐私硬约束**：列表/摘要只返回 `from===me \|\| to===me \|\| dm-to-all \|\| dm-to-player(给自己)`，其他玩家致 DM 的私信绝不可见。②打斗走 `玩家发起(/api/player/combat) → DM 裁决(/api/dm/combat/judge) → 状态+物品转移`，败方状态→`injured`、可选夺物、攻击物 `usesLeft-1`、已裁决不可再审；开关 `settings.combatEnabled`；`dmCreatePlayer` 支持 `items` 注入。③`game.messages[]` 与打斗记录在 reset 时清空；测试用 `tools/test-mechanics-e2e.cjs` | `assets/server.template.js` + `assets/{player,dm}.template.js` + `references/14-private-messaging.md` |
@@ -85,6 +85,21 @@ description: |
 
 docx 剧本可用 `assets/extract-docx.py`（零依赖）抽取文本：`python assets/extract-docx.py 剧本.docx -o out.txt`。
 
+**读取各种剧本文件（通用）**：源文件格式不同，抽取工具也不同，先按扩展名分派：
+
+| 源文件格式 | 用什么读 | 产出 |
+|-----------|---------|------|
+| `.docx`（zip+XML） | `assets/extract-docx.py`（零依赖，标准库 zipfile+xml） | Markdown 风格 `.txt`，保留标题层级与表格 |
+| `.doc`（旧二进制 OLE） | `assets/extract-doc.py`（olefile 解析 `WordDocument` 流；无 olefile 自动退化启发式扫描） | 纯文本 `.txt`（UTF-16-LE / GBK 自动选优） |
+| `.txt` / Markdown | 直接 Read 原样读 | 原文本 |
+| `.pdf` | `comments/pdf` 工具抽取文本，或 `pdf-to-png` 截页（若 PDF 是分页图/中文无文本层就截页） | 文本 or 分页 PNG |
+| 图片（线索卡/封面/地图） | 读图理解内容/配色；进 `res/` 作资源，不转文字 | 资源路径 |
+| `.xlsx` 平面图/表格 | `comments/xlsx` 读数据；平面图转 PNG 进 `res/maps/` | 数据 or PNG |
+
+原则：**工具必须通用**——脚本只接收文件路径，不写死任何具体剧本文件名；
+能力上先 Text 原生读（txt/md），docx/doc 用上述脚本抽文本，
+PDF 无文本层就截页，图片一律当资源。抽取失败必须写出 `[EMPTY]` 占位并提示人工补全，绝不静默产出空内容。
+
 10 种抽取范式（源材料 → data.json 建模，详见 `references/10-script-paradigms.md`）：
 - **3 幕推进** → `timeline[]` 每幕一个 step。
 - **两段剧本**（背景/细节） → `phase:prologue → started` 切换解锁。
@@ -94,7 +109,7 @@ docx 剧本可用 `assets/extract-docx.py`（零依赖）抽取文本：`python 
 - **时间线 + 真相** → `timeline[]` 全开 + `truth.text` 富文本。
 
 > **资源混合与真相多源提示**（§25 反哺）：
-> - 剧本文档若含 `.doc`（旧二进制 OLE 格式），`assets/extract-docx.py` 已支持**自动 antiword/strings 兜底**——抽取失败会写入 `[EMPTY]` 占位标记，需人工补全
+> - 剧本文档若含 `.doc`（旧二进制 OLE 格式），用 `assets/extract-doc.py` 抽取（olefile 解析 `WordDocument`，UTF-16-LE / GBK 选优）；无 olefile 时退化为启发式扫描。仍抽不出会写 `[EMPTY]` 占位，需人工补全
 > - 若剧本**无独立真相文件**，真相散落在 `组织者手册.pdf` / `调查线索.pdf` / `结局真相.pdf` 等多份文档里：把所有来源放进 `dmRefs[]`（DM 端可查），`truth.text` 由人工精读多源后综合撰写（详见 `references/10-script-paradigms.md` 范式 7）
 > - 图片线索用 `clues[].images[]` 数组（旧 `card` 字段保留兼容）——server.js `findRefByPath` 第 285 行已遍历 `images[]`
 > - 资源混合预检见 `loop.md` §0.5
@@ -238,7 +253,7 @@ node server.js
 | 线索/认领 code 随机化（防连续/防反推） | `references/13-code-randomization.md` |
 | 一键构建/校验/资源检查 | `assets/build.template.cjs` + `assets/validate-data.template.cjs` + `assets/check-res.template.cjs` |
 | 主题生成/定制色板 | `assets/gen-theme.template.cjs` + `assets/theme-presets.template.json` + `assets/palette.py` |
-| docx 剧本文本抽取 | `assets/extract-docx.py` |
+| docx 剧本文本抽取 | `assets/extract-docx.py`（docx）/ `assets/extract-doc.py`（doc）|
 
 ## 6. 禁止做的事
 

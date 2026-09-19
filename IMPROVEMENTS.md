@@ -1827,3 +1827,19 @@ if (c.visible === 'public') {
 | R70 | 人物关系图在 host 端也要有 | `truthPanelHTML` 的「人物关系与动机」卡补上与玩家端同款的环形布局 SVG（truth.relations 驱动，无 relations 时不出图），下方保留逐角色明细 |
 | R71 | 玩家端资料按钮"站内阅读"文案生硬 | 改为「阅读」（站内弹窗行为不变） |
 | R72 | "按用户分页私聊没了"误报 | 排查确认玩家端/DM 端会话 tab 均在（实机截图验证）；此前 DM 端曾因 R67 的半落补丁整体渲染失败、页面空白，易造成"功能消失"观感——已随 R67 修复。刷新页面即见 |
+
+### 37.17 · 远端 Cloudflare Worker 部署自验收：灌库/KV一致性/测试脚本三坑
+
+| # | 问题 | 根因 | 修复 |
+|---|------|------|------|
+| D1 | 远端 `POST /api/dm/login` 抛 `Cannot read properties of null (reading 'medicalIds')` | `data.json` 根本没灌进 KV：`dmState()` 里 `st=loadStatic()` 返回 null。KV namespace 里只有 Worker 运行时自写的 `tok:dm:*`，没有任何 `g:*` | 用 `kv key list` 全量比对所有 namespace，定位 `data-migrate` 灌库从未落地（见 D2）；灌库后短期会被 KV 一致性延迟掩盖（见 D3） |
+| D2 | `data-migrate.cjs` 灌库"看起来成功、实际一个 key 都没写进 KV" | **Windows 上 `cp.spawnSync('npx', ...)` 解析不到 `npx.cmd`，静默失败**（返回 error、无输出），而调用方从不检查 status | `wrangler()` 加 `shell: process.platform==='win32'`，并校验 `r.error` / `r.status!==0` 立即 throw，不再吞错 |
+| D3 | Worker 运行时读不到刚灌的 key，debug 端显示所有键只有 7 条 `tok:dm:*` | KV 全局**最终一致**：CLI `--remote` 写的键传播到边缘 colo 有延迟（实测约 10-60s） | 灌库后**轮询** debug/接口直到就位，不要写完立即断言；测试脚本对瞬时失败重试很短秒数即转绿 |
+| D4 | `GET /api/dm/state` 认证 fail（级联导致 create 全挂） | 测试脚本把手持方法写成了 `api('POST', '/api/dm/state', ...)`——而 `GET  /api/dm/state` 路由方法不匹配会命中「接口不存在」 | 改回 `api('GET', ...)`。**教训：路由是"方法+路径"查表，手写作（POST到GET/PATCH）必然 404，且一错全链崩** |
+| D5 | 资源测试 7a/7b 被跳过 | `scriptPath` 从"搜证响应"取（`r.body?.state?.script`），而 search 响应**不含 `.state`** | 在 step-4 `GET /api/player/state` 时捕获 `scriptPath`，后续 /res 用例复用它 |
+| D6 | 测试脚本在需代理的网络"连接超时" | Node 原生 `fetch`(undici) **不会自动走系统/环境代理**（PowerShell 走 WinINET 系统代理所以能通） | 测试脚本检测 `--proxy` / `HTTPS_PROXY` / `HTTP_PROXY`，用 `undici.ProxyAgent` 注入全局 dispatcher |
+| D7 | 临时 debug 端点裸奔上生产 | 排查期加的 `/api/__dbg` 会列出 `tok:player/dm:*` 令牌键名 | 上线前必须摘除所有 debug/诊断路由；`server.template.cf.js` 只留业务路由 |
+
+**通用教训（D2）**：Windows + Node 里 `spawnSync('npx', …)` = npx.cmd，不 `shell:true` 就是"假成功真静默"——所有包装 CLI 的脚本必须校验退出码且失败即抛。
+
+**附带产出**：`assets/extract-doc.py`（olefile 解析 `.doc` 的 `WordDocument` 流，UTF-16-LE/GBK 选优，无 olefile 退化启发式扫描）；SKILL.md Step1 新增「读取各种剧本文件（通用）」分派表。
